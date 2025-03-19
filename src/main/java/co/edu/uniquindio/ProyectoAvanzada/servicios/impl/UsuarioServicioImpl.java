@@ -1,10 +1,10 @@
 package co.edu.uniquindio.ProyectoAvanzada.servicios.impl;
 
 
-import co.edu.uniquindio.ProyectoAvanzada.dto.CrearUsuarioDTO;
-import co.edu.uniquindio.ProyectoAvanzada.dto.EditarUsuarioDTO;
-import co.edu.uniquindio.ProyectoAvanzada.dto.UsuarioDTO;
-import co.edu.uniquindio.ProyectoAvanzada.servicios.UsuarioServicio;
+import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.CrearUsuarioDTO;
+import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.EditarUsuarioDTO;
+import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.UsuarioDTO;
+import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.UsuarioServicio;
 import org.springframework.stereotype.Service;
 
 

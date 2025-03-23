@@ -1,4 +1,6 @@
 package co.edu.uniquindio.ProyectoAvanzada.modelo.enums;
 
-public enum HistorialEstados {
+public enum Rol {
+    CLIENTE,
+    ADMINISTRADOR
 }

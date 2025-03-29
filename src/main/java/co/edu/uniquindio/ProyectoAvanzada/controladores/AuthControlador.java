@@ -2,6 +2,7 @@ package co.edu.uniquindio.ProyectoAvanzada.controladores;
 
 import co.edu.uniquindio.ProyectoAvanzada.dto.MensajeDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.*;
+import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.CategoriaServicio;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthControlador {
 
+    private final CategoriaServicio categoriaServicio;
+
     @PostMapping
     public ResponseEntity<MensajeDTO<RegistroDTO>> registarUsuario(@RequestBody RegistroDTO registro) {
-        return ResponseEntity.ok(new MensajeDTO<>(false, null));
+        return ResponseEntity.ok(new MensajeDTO<>(false, ));
     }
 
     @PostMapping

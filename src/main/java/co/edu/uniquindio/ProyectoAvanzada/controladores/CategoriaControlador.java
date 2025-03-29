@@ -5,6 +5,7 @@ import co.edu.uniquindio.ProyectoAvanzada.dto.categoria.CategoriaDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.categoria.CrearCategoriaDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.categoria.EditarCategoriaDTO;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Categoria;
+import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.CategoriaServicio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,24 +18,30 @@ import java.util.List;
 @RequestMapping("/api/categorias/")
 public class CategoriaControlador {
 
+    private final CategoriaServicio categoriaServicio;
+
     @GetMapping
-    public ResponseEntity<List<CategoriaDTO>> listarCategorias(){
-        return ResponseEntity.ok(new ArrayList<CategoriaDTO>());
+    public ResponseEntity<MensajeDTO<List<CategoriaDTO>>> listarCategorias(){
+        List<CategoriaDTO> lista = categoriaServicio.listarCategorias();
+        return ResponseEntity.ok(new MensajeDTO<>(false, lista));
     }
 
     @PostMapping
-    public ResponseEntity<MensajeDTO<CrearCategoriaDTO>> crearCategoria(@RequestBody CrearCategoriaDTO categoriaDTO){
-        return ResponseEntity.ok(new MensajeDTO<CrearCategoriaDTO>(false, null));
+    public ResponseEntity<MensajeDTO<String>> crearCategoria(@RequestBody CrearCategoriaDTO categoriaDTO){
+        categoriaServicio.crearCategoria(categoriaDTO);
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Categoria creada correctamente"));
     }
 
     @PutMapping("/{idCategoria}")
-    public ResponseEntity<MensajeDTO<EditarCategoriaDTO>> editarCategoria(@RequestBody EditarCategoriaDTO editCategoriaDTO, @PathVariable String idCategoria){
-        return ResponseEntity.ok(new MensajeDTO<>(false, null));
+    public ResponseEntity<MensajeDTO<String>> editarCategoria(@RequestBody EditarCategoriaDTO editCategoriaDTO, @PathVariable String idCategoria){
+        categoriaServicio.editarCategoria(editCategoriaDTO, idCategoria);
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Categoria editada correctamente"));
     }
 
     @DeleteMapping("/{idCategoria}")
     public ResponseEntity<MensajeDTO<String>> eliminarCategoria(@PathVariable String idCategoria){
-        return ResponseEntity.ok(new MensajeDTO<>(false, null));
+        categoriaServicio.eliminarCategoria(idCategoria);
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Categoria eliminada correctamente"));
     }
 
 }

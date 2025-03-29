@@ -1,8 +1,8 @@
-package co.edu.uniquindio.ProyectoAvanzada.servicios;
+package co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces;
 
-import co.edu.uniquindio.ProyectoAvanzada.dto.CrearUsuarioDTO;
-import co.edu.uniquindio.ProyectoAvanzada.dto.EditarUsuarioDTO;
-import co.edu.uniquindio.ProyectoAvanzada.dto.UsuarioDTO;
+import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.CrearUsuarioDTO;
+import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.EditarUsuarioDTO;
+import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.UsuarioDTO;
 import jakarta.validation.Valid;
 
 import java.util.List;

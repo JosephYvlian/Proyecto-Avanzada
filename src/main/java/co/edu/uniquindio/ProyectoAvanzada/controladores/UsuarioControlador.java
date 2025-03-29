@@ -26,7 +26,7 @@ public class UsuarioControlador {
         return ResponseEntity.ok(new MensajeDTO<>(false, "Su registro ha sido exitoso"));
     }
 
-    @PutMapping
+    @PutMapping("/{id]")
     public ResponseEntity<MensajeDTO<String>> editar(@Valid @RequestBody EditarUsuarioDTO cuenta) throws Exception {
         usuarioServicio.editar(cuenta);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Cuenta editada exitosamente"));

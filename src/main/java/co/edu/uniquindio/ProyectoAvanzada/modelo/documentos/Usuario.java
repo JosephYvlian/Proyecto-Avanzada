@@ -18,7 +18,7 @@ import java.util.List;
 public class Usuario {
 
     @Id
-    private String id;
+    private String idUsuario;
 
     private Rol rol;
     private String nombre;

@@ -20,7 +20,7 @@ import java.util.List;
 public class Reporte {
 
     @Id
-    private String id;
+    private String idReporte;
 
     private String titulo;
     private ObjectId categoria;

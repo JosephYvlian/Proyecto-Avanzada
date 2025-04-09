@@ -15,27 +15,27 @@ public class AuthControlador {
 
     private final CategoriaServicio categoriaServicio;
 
-    @PostMapping
-    public ResponseEntity<MensajeDTO<RegistroDTO>> registarUsuario(@RequestBody RegistroDTO registro) {
-        return ResponseEntity.ok(new MensajeDTO<>(false, ));
+    @PostMapping("/registrarUsuario")
+    public ResponseEntity<MensajeDTO<String>> registarUsuario(@RequestBody RegistroDTO registro) {
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Usuario registrado exitosamente"));
     }
 
-    @PostMapping
+    @PostMapping("/verificar")
     public ResponseEntity<MensajeDTO<CodVerificacionDTO>> verificarCodigo(@RequestBody CodVerificacionDTO codVerificacion) {
         return ResponseEntity.ok(new MensajeDTO<>(false, null));
     }
 
-    @PostMapping
+    @PostMapping("/login")
     public ResponseEntity<MensajeDTO<LoginDTO>> iniciarSesion(@RequestBody LoginDTO login) {
         return ResponseEntity.ok(new MensajeDTO<>(false, null));
     }
 
-    @PostMapping
+    @PostMapping("/recuperar")
     public ResponseEntity<MensajeDTO<CodRecuperacionDTO>> recuperarContrasena(@RequestBody CodRecuperacionDTO codRecuperacion) {
         return ResponseEntity.ok(new MensajeDTO<>(false, null));
     }
 
-    @PutMapping
+    @PutMapping("/actualizar")
     public ResponseEntity<MensajeDTO<CambiarContrasenaDTO>> cambiarContrasena(@RequestBody CambiarContrasenaDTO cambiarContrasena) {
         return ResponseEntity.ok(new MensajeDTO<>(false, null));
     }

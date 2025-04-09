@@ -34,7 +34,7 @@ public class ReporteControlador {
         return ResponseEntity.ok(new MensajeDTO<>(false, null));
     }
 
-    @PutMapping("/{idReporte]")
+    @PutMapping("/{idReporte}")
     public  ResponseEntity<MensajeDTO<ReporteDTO>> editarReporte(@PathVariable String idReporte, @RequestBody EditarReporteDTO reporte){
         return ResponseEntity.ok(new MensajeDTO<>(false, null));
     }

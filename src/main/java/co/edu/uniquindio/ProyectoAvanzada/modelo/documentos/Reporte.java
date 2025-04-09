@@ -7,6 +7,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class Reporte {
     private Ciudad ciudad;
     private String descripcion;
     private Ubicacion ubicacion;
-    private Date fecha;
+    private LocalDateTime fecha;
     private List<String> imagenes;
 
 }

@@ -22,4 +22,8 @@ public interface ReporteRepo extends MongoRepository<Reporte, String> {
     // Buscar reportes por estado
     @Query("{ 'estado' : ?0 }")
     List<Reporte> buscarReportesPorEstado(String estado);
+
+    @Query("{'estado' :  'ACTIVO' }")
+    List<Reporte> listarReportesActivos();
+
 }

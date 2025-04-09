@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/comentarios/")
+@RequestMapping("/api/notificaciones/")
 public class NotificacionControlador {
 
     @PostMapping("/{idReporte}")

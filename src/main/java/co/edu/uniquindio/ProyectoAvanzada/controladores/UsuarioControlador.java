@@ -20,13 +20,13 @@ import java.util.List;
 public class UsuarioControlador {
     private final UsuarioServicio usuarioServicio;
 
-    @PostMapping
+    @PostMapping("/crear")
     public ResponseEntity<MensajeDTO<String>> crear(@Valid @RequestBody CrearUsuarioDTO cuenta) throws Exception {
         usuarioServicio.crear(cuenta);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Su registro ha sido exitoso"));
     }
 
-    @PutMapping("/{id]")
+    @PutMapping("/{id}")
     public ResponseEntity<MensajeDTO<String>> editar(@Valid @RequestBody EditarUsuarioDTO cuenta) throws Exception {
         usuarioServicio.editar(cuenta);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Cuenta editada exitosamente"));

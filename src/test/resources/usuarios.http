@@ -10,7 +10,6 @@ GET http://localhost:8080/api/usuarios/1
 POST http://localhost:8080/api/usuarios
 Content-Type: application/json
 
-
 {
   "nombre": "Carlos",
   "ciudad": "Armenia",
@@ -18,6 +17,17 @@ Content-Type: application/json
   "email": "carlos@email.com",
   "password": "123456"
 }
+
+### Obtener todos los usuarios que tengan un nombre dado
+GET http://localhost:8080/api/usuarios?nombre=Carlos
+
+
+### Obtener todos los usuarios cuya ciudad de residencia sea Armenia
+GET http://localhost:8080/api/usuarios?ciudad=Armenia
+
+
+### Obtener todos los usuarios cuya ciudad de residencia sea Armenia y su nombre sea Carlos
+GET http://localhost:8080/api/usuarios?ciudad=Armenia&nombre=Carlos
 
 
 ### Actualizar un usuario

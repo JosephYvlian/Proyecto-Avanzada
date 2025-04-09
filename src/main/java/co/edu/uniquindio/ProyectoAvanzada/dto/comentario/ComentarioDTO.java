@@ -1,4 +1,10 @@
 package co.edu.uniquindio.ProyectoAvanzada.dto.comentario;
 
-public record ComentarioDTO() {
+import java.util.List;
+
+public record ComentarioDTO(
+    String idComentario,
+    String mensaje,
+    List<String> imagenes
+) {
 }

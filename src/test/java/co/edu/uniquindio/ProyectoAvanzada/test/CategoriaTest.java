@@ -31,7 +31,7 @@ public class CategoriaTest {
 
     @Test
     public void actualizarCategoriaTest() {
-        ObjectId id = new ObjectId("67f6b0b21c1d871c5147aa5b");
+        ObjectId id = new ObjectId("67f6eaee7555db6e7b134488");
 
         Categoria categoria = categoriaRepo.findById(String.valueOf(id)).orElseThrow();
 
@@ -50,13 +50,13 @@ public class CategoriaTest {
 
         lista.forEach(System.out::println);
 
-        assertFalse(lista.isEmpty());
+        assertEquals(1, lista.size());
     }
 
     @Test
     public void eliminarCategoriaTest() {
         //Definimos el id del cliente (de MongoDB)
-        ObjectId id = new ObjectId("67f6b0b21c1d871c5147aa5b");
+        ObjectId id = new ObjectId("67f6eaee7555db6e7b134488");
 
         categoriaRepo.deleteById(String.valueOf(id));
 

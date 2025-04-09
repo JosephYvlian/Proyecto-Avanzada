@@ -20,16 +20,20 @@ public class UsuarioTest {
 
     @Test
     public void registrarTest() {
-        Usuario usuario = new Usuario();
-        usuario.setRol(Rol.ADMINISTRADOR);
-        usuario.setNombre("William Shakespeare");
-        usuario.setCiudad("Medellin");
-        usuario.setTelefono("3106786789");
-        usuario.setDireccion("Cr 10 #9 - 28");
-        usuario.setEmail("williamshake@gmail.com");
+        // Creamos un usuario utilizando el patrón Builder
+        Usuario usuario = Usuario.builder()
+                .rol(Rol.ADMINISTRADOR)
+                .nombre("William Shakespeare")
+                .ciudad("Medellin")
+                .telefono("3106786789")
+                .direccion("Cr 10 #9 - 28")
+                .email("williamshake@gmail.com")
+                .build();
 
+        // Guardamos el usuario en la base de datos
         Usuario guardado = usuarioRepo.save(usuario);
 
+        // Verificamos que se haya guardado correctamente
         assertNotNull(guardado);
     }
 
@@ -68,7 +72,7 @@ public class UsuarioTest {
     @Test
     public void eliminarTest(){
         //Definimos el id del cliente que queremos borrar
-        ObjectId id = new ObjectId("67f6b0b21c1d871c5147aa5b");
+        ObjectId id = new ObjectId("67f6b5f40ec2462fec4002c4");
 
 
         //Borramos el cliente con el id XXXXXXX

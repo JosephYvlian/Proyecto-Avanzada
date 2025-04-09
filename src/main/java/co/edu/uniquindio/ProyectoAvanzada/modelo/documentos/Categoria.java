@@ -13,7 +13,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @EqualsAndHashCode
 @Builder
 public class Categoria {
+
     @Id
+    private String idCategoria;
+
     private String nombre;
     private String descripcion;
+
 }

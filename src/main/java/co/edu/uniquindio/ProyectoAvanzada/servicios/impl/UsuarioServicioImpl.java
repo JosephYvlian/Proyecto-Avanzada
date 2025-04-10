@@ -84,7 +84,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     }
 
     private boolean siExisteEmail(String email) {
-        return usuarioRepo.buscarUsuarioPorCorreo(email).isPresent();
+        return usuarioRepo.buscarPorEmail(email).isPresent();
     }
 }
 

@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Document("usuarios")
@@ -32,5 +33,5 @@ public class Usuario {
     private String email;
     private String password;
     private EstadoCuenta estadoCuenta;
-    private LocalDateTime fechaRegistro;
+    private Date fechaRegistro;
 }

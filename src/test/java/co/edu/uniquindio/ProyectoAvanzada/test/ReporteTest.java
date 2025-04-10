@@ -32,7 +32,7 @@ public class ReporteTest {
     // Test para registrar un nuevo reporte en la base de datos
     @Test
     public void registrarReporteTest() {
-        ObjectId categoriaId = new ObjectId("67f6eaee7555db6e7b134488"); // ID de una categoría existente
+        ObjectId categoriaId = new ObjectId("67f7f67ec7f7bb4b5717fb21"); // ID de una categoría existente
         Categoria categoria = categoriaRepo.findById(String.valueOf(categoriaId))
                 .orElseThrow(() -> new IllegalArgumentException("La categoría no existe"));
 
@@ -40,7 +40,7 @@ public class ReporteTest {
         Ubicacion ubicacion = new Ubicacion(4.53454, -75.67543, "La Isabela");
 
         Reporte reporte = Reporte.builder()
-                .titulo("HOLA")
+                .titulo("Me acaban de robar, demonios")
                 .categoria(categoriaId)
                 .ciudad(ciudad)
                 .descripcion("Un careloco me acaba de robar cerca al estadio")
@@ -127,8 +127,8 @@ public class ReporteTest {
     // Buscar reportes por ubicación exacta
     @Test
     public void buscarPorUbicacionExactaTest() {
-        double lat = 4.53454;
-        double lng = -75.67543;
+        double lng = 4.53454;
+        double lat = -75.67543  ;
 
         List<Reporte> reportes = reporteRepo.buscarPorUbicacionExacta(lat, lng);
         reportes.forEach(System.out::println);

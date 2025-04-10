@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,11 +27,14 @@ public class UsuarioTest {
         // Creamos un usuario utilizando el patrón Builder
         Usuario usuario = Usuario.builder()
                 .rol(Rol.CLIENTE)
-                .nombre("Gildardo Vladimir")
-                .ciudad("Barrancabermeja")
-                .telefono("3216796621")
-                .direccion("Cr 6 #8 - 20")
-                .email("gildardo@gmail.com")
+                .nombre("Hector Lavoe")
+                .ciudad("Barranquilla")
+                .telefono("3094507845")
+                .direccion("Cr 5 #9 - 11")
+                .email("hector@gmail.com")
+                .password("98765")
+                .estadoCuenta(EstadoCuenta.ACTIVO)
+                .fechaRegistro(new Date())
                 .build();
         // Guardamos el usuario en la base de datos
         Usuario guardado = usuarioRepo.save(usuario);
@@ -40,7 +44,7 @@ public class UsuarioTest {
 
     @Test
     public void actualizarTest() {
-        //Definimos el id del cliente (de MongoDB)
+        //Definimos el ID del cliente (de MongoDB)
         ObjectId id = new ObjectId("67f6b0b21c1d871c5147aa5b");
         //Obtenemos el cliente con el id XXXXXXX
         Usuario usuario = usuarioRepo.findById(String.valueOf(id)).orElseThrow();
@@ -66,13 +70,13 @@ public class UsuarioTest {
 
     @Test
     public void eliminarTest(){
-        //Definimos el id del cliente que queremos borrar
+        //Definimos el ID del cliente que queremos borrar
         ObjectId id = new ObjectId("67f6b5f40ec2462fec4002c4");
         //Borramos el cliente con el id XXXXXXX
         usuarioRepo.deleteById(String.valueOf(id));
         //Obtenemos el cliente con el id XXXXXXX
         Usuario cliente = usuarioRepo.findById(String.valueOf(id)).orElse(null);
-        //Verificamos que el cliente no exista, debe ser null ya que fue eliminado
+        //Verificamos que el cliente no exista, debe ser null, ya que fue eliminado
         assertNull(cliente);
     }
 
@@ -90,7 +94,7 @@ public class UsuarioTest {
     // Test: Buscar usuarios por rol
     @Test
     public void buscarPorRolTest() {
-        String rol = Rol.ADMINISTRADOR.name();
+        String rol = Rol.CLIENTE.name();
         List<Usuario> usuarios = usuarioRepo.buscarPorRol(rol);
         usuarios.forEach(System.out::println);
         assertFalse(usuarios.isEmpty());
@@ -99,7 +103,7 @@ public class UsuarioTest {
     // Test: Buscar usuarios por ciudad exacta
     @Test
     public void buscarPorCiudadTest() {
-        String ciudad = "Armenia";
+        String ciudad = "Pasto";
         List<Usuario> usuarios = usuarioRepo.buscarPorCiudad(ciudad);
         usuarios.forEach(System.out::println);
         assertFalse(usuarios.isEmpty());

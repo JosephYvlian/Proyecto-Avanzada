@@ -32,11 +32,11 @@ public class NotificacionTest {
     // Test para registrar una nueva notificación en la base de datos
     @Test
     public void registrarNotificacionTest() {
-        ObjectId idUsuario = new ObjectId("67f730e7d5b9332193cc1922"); // ID de un usuario existente
+        ObjectId idUsuario = new ObjectId("67f7f88d4e4e7708d451c1c7"); // ID de un usuario existente
         Usuario usuario = usuarioRepo.findById(String.valueOf(idUsuario))
                 .orElseThrow(() -> new IllegalArgumentException("El Usuario no existe"));
 
-        ObjectId idReporte = new ObjectId("67f6f059f5144a4eddc02b4f"); // ID de un reporte existente
+        ObjectId idReporte = new ObjectId("67f7f6e52c5b8614d14933e1"); // ID de un reporte existente
         Reporte reporte = reporteRepo.findById(String.valueOf(idReporte))
                 .orElseThrow(() -> new IllegalArgumentException("El Reporte no existe"));
 

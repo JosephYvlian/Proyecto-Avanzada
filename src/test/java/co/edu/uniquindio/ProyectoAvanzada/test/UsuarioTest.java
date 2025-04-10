@@ -18,21 +18,20 @@ public class UsuarioTest {
     @Autowired
     private UsuarioRepo usuarioRepo;
 
+    // TEST CRUD -------------------------------------------------------------------------------------------------------
     @Test
     public void registrarTest() {
         // Creamos un usuario utilizando el patrón Builder
         Usuario usuario = Usuario.builder()
-                .rol(Rol.ADMINISTRADOR)
-                .nombre("William Shakespeare")
-                .ciudad("Medellin")
-                .telefono("3106786789")
-                .direccion("Cr 10 #9 - 28")
-                .email("williamshake@gmail.com")
+                .rol(Rol.CLIENTE)
+                .nombre("Gildardo Vladimir")
+                .ciudad("Barrancabermeja")
+                .telefono("3216796621")
+                .direccion("Cr 6 #8 - 20")
+                .email("gildardo@gmail.com")
                 .build();
-
         // Guardamos el usuario en la base de datos
         Usuario guardado = usuarioRepo.save(usuario);
-
         // Verificamos que se haya guardado correctamente
         assertNotNull(guardado);
     }
@@ -45,13 +44,10 @@ public class UsuarioTest {
         Usuario usuario = usuarioRepo.findById(String.valueOf(id)).orElseThrow();
         //Modificar el email del cliente
         usuario.setEmail("nuevoemail@email.com");
-
         //Guardamos nuevamente el cliente
         usuarioRepo.save(usuario);
-
         //Obtenemos el cliente con el id XXXXXXX nuevamente
         Usuario usuarioActualizado = usuarioRepo.findById(String.valueOf(id)).orElseThrow();
-
         //Verificamos que el email se haya actualizado
         assertEquals("nuevoemail@email.com", usuarioActualizado.getEmail());
     }
@@ -60,29 +56,20 @@ public class UsuarioTest {
     public void listarTodosTest(){
         //Obtenemos la lista de todos los clientes (por ahora solo tenemos 1)
         List<Usuario> lista = usuarioRepo.findAll();
-
         //Imprimimos los clientes, se hace uso de una función lambda
         lista.forEach(System.out::println);
-
         //Verificamos que solo exista un cliente
         assertEquals(2, lista.size());
     }
-
 
     @Test
     public void eliminarTest(){
         //Definimos el id del cliente que queremos borrar
         ObjectId id = new ObjectId("67f6b5f40ec2462fec4002c4");
-
-
         //Borramos el cliente con el id XXXXXXX
         usuarioRepo.deleteById(String.valueOf(id));
-
-
         //Obtenemos el cliente con el id XXXXXXX
         Usuario cliente = usuarioRepo.findById(String.valueOf(id)).orElse(null);
-
-
         //Verificamos que el cliente no exista, debe ser null ya que fue eliminado
         assertNull(cliente);
     }

@@ -17,6 +17,10 @@ public class CategoriaTest {
     @Autowired
     private CategoriaRepo categoriaRepo;
 
+
+    // TEST CRUD -------------------------------------------------------------------------------------------------------
+
+    // Test para registrar una nueva categoría en la base de datos
     @Test
     public void registrarCategoriaTest() {
         Categoria categoria = Categoria.builder()
@@ -29,9 +33,10 @@ public class CategoriaTest {
         assertNotNull(guardada);
     }
 
+    // Test para actualizar la descripción de una categoría existente
     @Test
     public void actualizarCategoriaTest() {
-        ObjectId id = new ObjectId("67f6eaee7555db6e7b134488");
+        ObjectId id = new ObjectId("67f6eaee7555db6e7b134488"); // ID de la categoria a actualizar
 
         Categoria categoria = categoriaRepo.findById(String.valueOf(id)).orElseThrow();
 
@@ -44,6 +49,7 @@ public class CategoriaTest {
         assertEquals("Nueva descripcion", actualizada.getDescripcion());
     }
 
+    // Test para listar todas las categorías almacenadas en la base de datos
     @Test
     public void listarCategoriasTest() {
         List<Categoria> lista = categoriaRepo.findAll();
@@ -53,10 +59,10 @@ public class CategoriaTest {
         assertEquals(1, lista.size());
     }
 
+    // Test para eliminar una categoría por su ID y verificar que ya no exista
     @Test
     public void eliminarCategoriaTest() {
-        //Definimos el id del cliente (de MongoDB)
-        ObjectId id = new ObjectId("67f6eaee7555db6e7b134488");
+        ObjectId id = new ObjectId("67f6eaee7555db6e7b134488"); // ID de la categoria a eliminar
 
         categoriaRepo.deleteById(String.valueOf(id));
 

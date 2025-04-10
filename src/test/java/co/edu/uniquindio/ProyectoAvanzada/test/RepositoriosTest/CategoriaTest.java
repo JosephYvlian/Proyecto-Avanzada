@@ -1,4 +1,4 @@
-package co.edu.uniquindio.ProyectoAvanzada.test;
+package co.edu.uniquindio.ProyectoAvanzada.test.RepositoriosTest;
 
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Categoria;
 import co.edu.uniquindio.ProyectoAvanzada.repositorios.CategoriaRepo;

@@ -1,4 +1,4 @@
-package co.edu.uniquindio.ProyectoAvanzada.test;
+package co.edu.uniquindio.ProyectoAvanzada.test.RepositoriosTest;
 
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Categoria;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Reporte;
@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;

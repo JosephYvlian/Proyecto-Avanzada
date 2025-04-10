@@ -84,4 +84,24 @@ public class ComentarioTest {
         Comentario eliminado = comentarioRepo.findById(id).orElse(null);
         assertNull(eliminado);
     }
+
+    // TEST REPO -------------------------------------------------------------------------------------------------------
+
+    // Test: Buscar todos los comentarios hechos por un usuario
+    @Test
+    public void buscarPorUsuarioTest() {
+        ObjectId idUsuario = new ObjectId("67f730e7d5b9332193cc1922");
+        List<Comentario> comentarios = comentarioRepo.buscarPorUsuario(idUsuario.toHexString());
+        comentarios.forEach(System.out::println);
+        assertFalse(comentarios.isEmpty());
+    }
+
+    // Test: Buscar todos los comentarios asociados a un reporte
+    @Test
+    public void buscarPorReporteTest() {
+        ObjectId idReporte = new ObjectId("67f6f059f5144a4eddc02b4f");
+        List<Comentario> comentarios = comentarioRepo.buscarPorReporte(idReporte.toHexString());
+        comentarios.forEach(System.out::println);
+        assertFalse(comentarios.isEmpty());
+    }
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -69,5 +70,17 @@ public class CategoriaTest {
         Categoria eliminada = categoriaRepo.findById(String.valueOf(id)).orElse(null);
 
         assertNull(eliminada);
+    }
+
+    // TEST REPO -------------------------------------------------------------------------------------------------------
+
+    // Test: Buscar categoría por nombre exacto
+    @Test
+    public void buscarPorNombreTest() {
+        String nombreCategoria = "Hurto a Mano Desarmada"; // Asegúrate de que exista en tu BD
+        Optional<Categoria> categoria = categoriaRepo.buscarPorNombre(nombreCategoria);
+
+        assertTrue(categoria.isPresent());
+        System.out.println(categoria.get());
     }
 }

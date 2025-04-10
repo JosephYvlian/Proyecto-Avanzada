@@ -1,6 +1,7 @@
 package co.edu.uniquindio.ProyectoAvanzada.test;
 
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Usuario;
+import co.edu.uniquindio.ProyectoAvanzada.modelo.enums.EstadoCuenta;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.enums.Rol;
 import co.edu.uniquindio.ProyectoAvanzada.repositorios.UsuarioRepo;
 import org.bson.types.ObjectId;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -74,5 +76,41 @@ public class UsuarioTest {
         assertNull(cliente);
     }
 
+    // TEST REPO -------------------------------------------------------------------------------------------------------
 
+    // Test: Buscar usuario por correo
+    @Test
+    public void buscarPorEmailTest() {
+        String email = "williamshake@gmail.com";
+        Optional<Usuario> usuario = usuarioRepo.buscarPorEmail(email);
+        assertTrue(usuario.isPresent());
+        System.out.println(usuario.get());
+    }
+
+    // Test: Buscar usuarios por rol
+    @Test
+    public void buscarPorRolTest() {
+        String rol = Rol.ADMINISTRADOR.name();
+        List<Usuario> usuarios = usuarioRepo.buscarPorRol(rol);
+        usuarios.forEach(System.out::println);
+        assertFalse(usuarios.isEmpty());
+    }
+
+    // Test: Buscar usuarios por ciudad exacta
+    @Test
+    public void buscarPorCiudadTest() {
+        String ciudad = "Armenia";
+        List<Usuario> usuarios = usuarioRepo.buscarPorCiudad(ciudad);
+        usuarios.forEach(System.out::println);
+        assertFalse(usuarios.isEmpty());
+    }
+
+    // Test: Buscar usuarios por estado de cuenta
+    @Test
+    public void buscarPorEstadoCuentaTest() {
+        String estado = EstadoCuenta.ACTIVO.name();
+        List<Usuario> usuarios = usuarioRepo.buscarPorEstadoCuenta(estado);
+        usuarios.forEach(System.out::println);
+        assertFalse(usuarios.isEmpty());
+    }
 }

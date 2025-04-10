@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -84,5 +85,53 @@ public class ReporteTest {
 
         Reporte eliminada = reporteRepo.findById(String.valueOf(id)).orElse(null);
         assertNull(eliminada);
+    }
+
+    // TEST REPO -------------------------------------------------------------------------------------------------------
+
+    // Buscar reportes por ID de categoría
+    @Test
+    public void buscarPorCategoriaTest() {
+        ObjectId idCategoria = new ObjectId("67f6eaee7555db6e7b134488");
+        List<Reporte> reportes = reporteRepo.buscarPorCategoria(idCategoria.toHexString());
+        reportes.forEach(System.out::println);
+
+        assertFalse(reportes.isEmpty());
+    }
+
+    // Buscar reportes por nombre de ciudad
+    @Test
+    public void buscarPorCiudadTest() {
+        List<Reporte> reportes = reporteRepo.buscarPorCiudad("Armenia");
+        reportes.forEach(System.out::println);
+
+        assertFalse(reportes.isEmpty());
+    }
+
+    // Buscar reportes registrados entre dos fechas
+    @Test
+    public void buscarEntreFechasTest() {
+        Calendar cal = Calendar.getInstance();
+
+        cal.set(2024, Calendar.JANUARY, 1);
+        Date inicio = cal.getTime();
+
+        cal.set(2025, Calendar.DECEMBER, 31);
+        Date fin = cal.getTime();
+
+        List<Reporte> reportes = reporteRepo.buscarEntreFechas(inicio, fin);
+        reportes.forEach(System.out::println);
+        assertFalse(reportes.isEmpty());
+    }
+
+    // Buscar reportes por ubicación exacta
+    @Test
+    public void buscarPorUbicacionExactaTest() {
+        double lat = 4.53454;
+        double lng = -75.67543;
+
+        List<Reporte> reportes = reporteRepo.buscarPorUbicacionExacta(lat, lng);
+        reportes.forEach(System.out::println);
+        assertFalse(reportes.isEmpty());
     }
 }

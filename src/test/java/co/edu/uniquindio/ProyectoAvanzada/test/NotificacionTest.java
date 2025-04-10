@@ -84,4 +84,40 @@ public class NotificacionTest {
         Notificacion eliminada = notificacionRepo.findById(id).orElse(null);
         assertNull(eliminada);
     }
+
+    // TEST REPO -------------------------------------------------------------------------------------------------------
+
+    // Test: Buscar todas las notificaciones de un usuario
+    @Test
+    public void buscarPorUsuarioTest() {
+        ObjectId idUsuario = new ObjectId("67f730e7d5b9332193cc1922");
+        List<Notificacion> notificaciones = notificacionRepo.buscarPorUsuario(idUsuario.toHexString());
+        notificaciones.forEach(System.out::println);
+        assertFalse(notificaciones.isEmpty());
+    }
+
+    // Test: Buscar todas las notificaciones asociadas a un reporte
+    @Test
+    public void buscarPorReporteTest() {
+        ObjectId idReporte = new ObjectId("67f6f059f5144a4eddc02b4f");
+        List<Notificacion> notificaciones = notificacionRepo.buscarPorReporte(idReporte.toHexString());
+        notificaciones.forEach(System.out::println);
+        assertFalse(notificaciones.isEmpty());
+    }
+
+    // Test: Buscar notificaciones NO leídas por usuario
+    @Test
+    public void buscarNoLeidasPorUsuarioTest() {
+        ObjectId idUsuario = new ObjectId("67f730e7d5b9332193cc1922");
+        List<Notificacion> noLeidas = notificacionRepo.buscarNoLeidasPorUsuario(idUsuario.toHexString());
+        noLeidas.forEach(System.out::println);
+    }
+
+    // Test: Buscar notificaciones leídas por usuario
+    @Test
+    public void buscarLeidasPorUsuarioTest() {
+        ObjectId idUsuario = new ObjectId("67f730e7d5b9332193cc1922");
+        List<Notificacion> leidas = notificacionRepo.buscarLeidasPorUsuario(idUsuario.toHexString());
+        leidas.forEach(System.out::println);
+    }
 }

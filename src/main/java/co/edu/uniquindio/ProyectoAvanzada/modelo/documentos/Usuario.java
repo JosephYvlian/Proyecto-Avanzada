@@ -33,6 +33,4 @@ public class Usuario {
     private String password;
     private EstadoCuenta estadoCuenta;
     private LocalDateTime fechaRegistro;
-
-
 }

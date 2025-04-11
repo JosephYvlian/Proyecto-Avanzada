@@ -6,17 +6,12 @@ import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.UsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Usuario;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring")
 public interface UsuarioMapper {
 
     // Mapear DTO de creación hacia documento Usuario
-    @Mappings({
-            @Mapping(source = "email", target = "email"),
-            @Mapping(source = "telefono", target = "telefono")
-            // Los demás campos se mapearán automáticamente porque se llaman igual
-    })
+    @Mapping(target = "fechaRegistro", expression = "java(java.time.LocalDateTime.now())")
     Usuario toDocument(CrearUsuarioDTO usuarioDTO);
 
     // Mapear Usuario → UsuarioDTO (asumo que tienes este DTO ya definido)

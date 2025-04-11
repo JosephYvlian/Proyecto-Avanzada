@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.Length;
 import java.time.LocalDateTime;
 
 
-public record CrearUsuarioDTO(
+public record CrearUsuarioDTO(String cedula,
         Rol rol,
         @NotBlank @Length(max = 100) String nombre,
         @Length(max = 10) String telefono,

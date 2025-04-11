@@ -21,9 +21,9 @@ public class Comentario {
     @Id
     private String idComentario;
 
-    private ObjectId idUsuario;
-    private ObjectId idReporte;
+    private String idUsuario;
+    private String idReporte;
     private String comentario;
-    private Date fecha;
+    private LocalDateTime fecha;
 
 }

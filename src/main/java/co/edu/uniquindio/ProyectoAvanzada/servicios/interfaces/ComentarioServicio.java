@@ -10,10 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface ComentarioServicio {
+    String crearComentario(CrearComentarioDTO dto);
 
-    void crearComentario(String idReporte, CrearComentarioDTO comentario);
+    void eliminarComentario(String id);
 
-    List<ComentarioDTO> listarComentarios(String idReporte);
-
-    void eliminarComentario(String idReporte);
+    List<ComentarioDTO> listarComentariosPorReporte(String idReporte);
 }

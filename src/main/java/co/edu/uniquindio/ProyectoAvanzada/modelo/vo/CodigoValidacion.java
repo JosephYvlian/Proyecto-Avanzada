@@ -1,17 +1,8 @@
 package co.edu.uniquindio.ProyectoAvanzada.modelo.vo;
 
-import lombok.*;
-import java.util.Date;
-
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+import java.time.LocalDate;
 
 public class CodigoValidacion {
     private String codigo;
-    private Date fecha;
+    private LocalDate fecha;
 }

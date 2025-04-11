@@ -28,7 +28,7 @@ public class Reporte {
     private Ciudad ciudad;
     private String descripcion;
     private Ubicacion ubicacion;
-    private Date fecha;
+    private LocalDateTime fecha;
     private List<String> imagenes;
 
 }

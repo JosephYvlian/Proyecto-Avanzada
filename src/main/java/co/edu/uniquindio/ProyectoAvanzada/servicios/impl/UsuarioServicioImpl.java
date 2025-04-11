@@ -1,27 +1,18 @@
 package co.edu.uniquindio.ProyectoAvanzada.servicios.impl;
 
 
-import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.ActivarUsuarioDTO;
-import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.CambiarContrasenaDTO;
-import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.CodVerificacionDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.CrearUsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.EditarUsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.UsuarioDTO;
-import co.edu.uniquindio.ProyectoAvanzada.excepciones.RestExceptionHandler;
 import co.edu.uniquindio.ProyectoAvanzada.mapper.UsuarioMapper;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Usuario;
-import co.edu.uniquindio.ProyectoAvanzada.modelo.enums.EstadoCuenta;
-import co.edu.uniquindio.ProyectoAvanzada.modelo.vo.CodigoValidacion;
 import co.edu.uniquindio.ProyectoAvanzada.repositorios.UsuarioRepo;
 import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.UsuarioServicio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.Random;
 
 
 @Service
@@ -92,24 +83,8 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         return listaDTO;
     }
 
-    @Override
-    public void enviarCodigoVerificacion(CodVerificacionDTO codVerificacionDTO) throws Exception {
-
-    }
-
-    @Override
-    public void cambiarPassword(CambiarContrasenaDTO cambiarContrasenaDTO) throws Exception {
-
-    }
-
-    @Override
-    public void setActivarUsuario(ActivarUsuarioDTO activarUsuarioDTO) throws Exception {
-
-    }
-
-
     private boolean siExisteEmail(String email) {
-        return usuarioRepo.buscarPorEmail(email).isPresent();
+        return usuarioRepo.buscarUsuarioPorCorreo(email).isPresent();
     }
 }
 

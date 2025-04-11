@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record ReporteDTO(
-        String idReporte,
+        String codigoReporte,
         String titulo,
         Categoria categoria,
         String descripcion,

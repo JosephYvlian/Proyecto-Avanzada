@@ -12,8 +12,8 @@ import java.util.Optional;
 public interface ReporteRepo extends MongoRepository<Reporte, String> {
 
     // Buscar reporte por ID
-    @Query("{ '_id' : ?0 }")
-    Optional<Reporte> buscarReportePorId(String idReporte);
+    @Query("{ 'codigoReporte' : ?0 }")
+    Optional<Reporte> buscarReportePorCodigo(String codigo);
 
     // Buscar reportes por usuario
     @Query("{ 'idUsuario' : ?0 }")

@@ -5,6 +5,8 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
+
 @Document("notificaciones")
 @Getter
 @Setter
@@ -18,9 +20,10 @@ public class Notificacion {
     @Id
     private String idNotificacion;
 
-    private ObjectId idUsuario;
-    private ObjectId idReporte;
+    private String idUsuario;
+    private String idReporte;
     private String tituloNotificacion;
     private String mensaje;
     private boolean estado;
+    private LocalDateTime fecha;
 }

@@ -71,6 +71,11 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     }
 
     @Override
+    public void editar(EditarUsuarioDTO cuenta) {
+
+    }
+
+    @Override
     public void editar(EditarUsuarioDTO cuenta, String cedula){
         Usuario usuario = usuarioRepo.buscarUsuarioPorCedula(cedula).orElse(null);
 

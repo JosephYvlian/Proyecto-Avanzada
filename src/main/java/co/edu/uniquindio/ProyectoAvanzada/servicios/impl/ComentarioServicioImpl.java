@@ -29,10 +29,7 @@ public class ComentarioServicioImpl implements ComentarioServicio {
 
     @Override
     public List<ComentarioDTO> listarComentariosPorReporte(String idReporte) {
-        return comentarioRepo.buscarComentarioPorId(idReporte)
-                .stream()
-                .map(comentarioMapper::toDTO)
-                .toList();
+        return null;
     }
 
     @Override

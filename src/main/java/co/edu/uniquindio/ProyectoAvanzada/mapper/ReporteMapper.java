@@ -20,6 +20,7 @@ public interface ReporteMapper {
         reporte.setCategoria(dto.categoria());
         reporte.setDescripcion(dto.descripcion());
         reporte.setUbicacion(dto.ubicacion());
+        reporte.setEstado(dto.estado());
         reporte.setImagenes(dto.imagenes());
     }
 }

@@ -28,7 +28,7 @@ public class UsuarioControlador {
 
     @PutMapping("/{cedula}")
     public ResponseEntity<MensajeDTO<String>> editar(@Valid @RequestBody EditarUsuarioDTO cuenta, @PathVariable String cedula) throws Exception {
-        usuarioServicio.editar(cuenta);
+        usuarioServicio.editar(cuenta, cedula);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Cuenta editada exitosamente"));
     }
 

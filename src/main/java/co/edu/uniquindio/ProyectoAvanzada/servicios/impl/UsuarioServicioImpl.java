@@ -49,7 +49,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         // Generar código y expiración
         String codigo = generarCodigo();
         LocalDateTime expiracion = LocalDateTime.now().plusMinutes(15);
-        usuario.setCodigoValidacion(new CodigoValidacion(codigo, expiracion));
+        usuario.setCodigoValidacion(new CodigoValidacion(codigo, cuenta.email(), expiracion));
 
 
         // Guardar usuario
@@ -68,11 +68,6 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         } catch (Exception e) {
             throw new RuntimeException("Error al enviar el correo de verificación", e);
         }
-    }
-
-    @Override
-    public void editar(EditarUsuarioDTO cuenta) {
-
     }
 
     @Override
@@ -166,4 +161,3 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         return String.format("%06d", codigo); // Rellena con ceros a la izquierda si es necesario
     }
 }
-

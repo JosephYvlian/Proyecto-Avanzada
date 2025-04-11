@@ -23,6 +23,6 @@ public class Comentario {
     private ObjectId idUsuario;
     private ObjectId idReporte;
     private String comentario;
-    private LocalDateTime fechaComentario;
+    private LocalDateTime fecha;
 
 }

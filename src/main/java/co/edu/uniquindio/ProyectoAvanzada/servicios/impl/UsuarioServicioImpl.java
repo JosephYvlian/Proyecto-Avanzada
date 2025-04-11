@@ -49,7 +49,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         // Generar código y expiración
         String codigo = generarCodigo();
         LocalDateTime expiracion = LocalDateTime.now().plusMinutes(15);
-        usuario.setCodigoValidacion(new CodigoValidacion(codigo, expiracion));
+        usuario.setCodigoValidacion(new CodigoValidacion(codigo, cuenta.email(), expiracion));
 
 
         // Guardar usuario

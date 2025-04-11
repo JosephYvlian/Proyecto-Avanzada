@@ -20,21 +20,21 @@ public class ComentarioControlador {
 
     private final ComentarioServicio comentarioServicio;
 
-    @PostMapping("/{idReporte}")
-    public ResponseEntity<MensajeDTO<String>> crearComentario(@PathVariable String idReporte, @RequestBody CrearComentarioDTO comentario) {
-        comentarioServicio.crearComentario(idReporte, comentario);
-        return ResponseEntity.ok(new MensajeDTO<>(false, "Comentario creado correctamente"));
+    @PostMapping
+    public ResponseEntity<MensajeDTO<String>> crearComentario(@RequestBody CrearComentarioDTO dto) {
+        String id = comentarioServicio.crearComentario(dto);
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Comentario creado."));
     }
 
-    @GetMapping("/{idReporte}")
+    @GetMapping("/reporte/{idReporte}")
     public ResponseEntity<MensajeDTO<List<ComentarioDTO>>> listarComentarios(@PathVariable String idReporte) {
-        List<ComentarioDTO> lista = comentarioServicio.listarComentarios(idReporte);
-        return ResponseEntity.ok(new MensajeDTO<>(false, lista));
+        List<ComentarioDTO> comentarios = comentarioServicio.listarComentariosPorReporte(idReporte);
+        return ResponseEntity.ok(new MensajeDTO<>(false, comentarios));
     }
 
     @DeleteMapping("/{idReporte}")
     public ResponseEntity<MensajeDTO<String>> eliminarComentario(@PathVariable String idReporte) {
         comentarioServicio.eliminarComentario(idReporte);
-        return ResponseEntity.ok(new MensajeDTO<>(false, "Comentario eliminado correctamente"));
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Comentario eliminado correctamente."));
     }
 }

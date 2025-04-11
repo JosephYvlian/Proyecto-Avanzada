@@ -1,5 +1,6 @@
 package co.edu.uniquindio.ProyectoAvanzada.modelo.documentos;
 
+import co.edu.uniquindio.ProyectoAvanzada.modelo.enums.EstadoReporte;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.vo.Ubicacion;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.vo.Ciudad;
 import lombok.*;
@@ -19,16 +20,18 @@ import java.util.List;
 @Getter
 @ToString
 public class Reporte {
-
     @Id
-    private String idReporte;
+    private String codigoReporte;
 
     private String titulo;
-    private ObjectId categoria;
+    private Categoria categoria;
     private Ciudad ciudad;
     private String descripcion;
     private Ubicacion ubicacion;
+    private EstadoReporte estado;
+    private Integer votosImportancia;
     private LocalDateTime fecha;
     private List<String> imagenes;
+    private List<Comentario> comentarios;
 
 }

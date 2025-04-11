@@ -20,27 +20,27 @@ import java.util.List;
 public class UsuarioControlador {
     private final UsuarioServicio usuarioServicio;
 
-    @PostMapping("/crear")
+    @PostMapping
     public ResponseEntity<MensajeDTO<String>> crear(@Valid @RequestBody CrearUsuarioDTO cuenta) throws Exception {
         usuarioServicio.crear(cuenta);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Su registro ha sido exitoso"));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<MensajeDTO<String>> editar(@Valid @RequestBody EditarUsuarioDTO cuenta) throws Exception {
-        usuarioServicio.editar(cuenta);
+    @PutMapping("/{cedula}")
+    public ResponseEntity<MensajeDTO<String>> editar(@Valid @RequestBody EditarUsuarioDTO cuenta, @PathVariable String cedula) throws Exception {
+        usuarioServicio.editar(cuenta, cedula);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Cuenta editada exitosamente"));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<MensajeDTO<String>> eliminar(@PathVariable String id) throws Exception{
-        usuarioServicio.eliminar(id);
+    @DeleteMapping("/{cedula}")
+    public ResponseEntity<MensajeDTO<String>> eliminar(@PathVariable String cedula) throws Exception{
+        usuarioServicio.eliminar(cedula);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Cuenta eliminada exitosamente"));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<MensajeDTO<UsuarioDTO>> obtener(@PathVariable String id) throws Exception{
-        UsuarioDTO info = usuarioServicio.obtener(id);
+    @GetMapping("/{cedula}")
+    public ResponseEntity<MensajeDTO<UsuarioDTO>> obtener(@PathVariable String cedula) throws Exception{
+        UsuarioDTO info = usuarioServicio.obtener(cedula);
         return ResponseEntity.ok(new MensajeDTO<>(false, info));
     }
 

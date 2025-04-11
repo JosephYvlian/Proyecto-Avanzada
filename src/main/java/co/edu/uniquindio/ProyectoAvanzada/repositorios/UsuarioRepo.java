@@ -11,9 +11,12 @@ import java.util.Optional;
 @Repository
 public interface UsuarioRepo extends MongoRepository<Usuario, String> {
 
+    @Query("{ 'cedula':  ?0}")
+    Optional<Usuario> buscarUsuarioPorCedula(String cedula);
+
     // Buscar usuario por correo
-    @Query("{ 'correo' : ?0 }")
-    Optional<Usuario> buscarUsuarioPorCorreo(String correo);
+    @Query("{ 'email' : ?0 }")
+    Optional<Usuario> buscarUsuarioPorEmail(String email);
 
     // Buscar usuario por nombre de usuario
     @Query("{ 'username' : ?0 }")

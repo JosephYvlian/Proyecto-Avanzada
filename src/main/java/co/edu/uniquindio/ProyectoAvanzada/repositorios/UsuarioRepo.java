@@ -25,4 +25,6 @@ public interface UsuarioRepo extends MongoRepository<Usuario, String> {
     // Buscar usuarios con más de X reportes
     @Query("{ 'reportes' : { $size : { $gt: ?0 } } }")
     List<Usuario> buscarUsuariosConMasDeXReportes(int cantidad);
+
+
 }

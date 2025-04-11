@@ -10,11 +10,9 @@ import java.util.List;
 public interface UsuarioServicio {
     void crear(@Valid CrearUsuarioDTO cuenta);
 
-    void editar(@Valid EditarUsuarioDTO cuenta, String cedula);
+    void editar(@Valid EditarUsuarioDTO cuenta);
 
     void eliminar(String id);
-
-    void verificarUsuario(String email, String codigo);
 
     UsuarioDTO obtener(String id);
 

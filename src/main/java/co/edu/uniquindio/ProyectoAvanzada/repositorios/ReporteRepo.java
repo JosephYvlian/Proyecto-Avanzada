@@ -7,23 +7,23 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface ReporteRepo extends MongoRepository<Reporte, String> {
 
-    // Buscar reporte por ID
-    @Query("{ 'codigoReporte' : ?0 }")
-    Optional<Reporte> buscarReportePorCodigo(String codigo);
+    // Buscar reportes por ID de categoría
+    @Query("{ 'categoria': ?0 }")
+    List<Reporte> buscarPorCategoria(String idCategoria);
 
-    // Buscar reportes por usuario
-    @Query("{ 'idUsuario' : ?0 }")
-    List<Reporte> buscarReportesPorUsuario(String idUsuario);
+    // Buscar reportes por ciudad
+    @Query("{ 'ciudad.nombre': ?0 }")
+    List<Reporte> buscarPorCiudad(String nombreCiudad);
 
-    // Buscar reportes por estado
-    @Query("{ 'estado' : ?0 }")
-    List<Reporte> buscarReportesPorEstado(String estado);
+    // Buscar reportes registrados entre dos fechas
+    @Query("{ 'fecha': { $gte: ?0, $lte: ?1 } }")
+    List<Reporte> buscarEntreFechas(Date fechaInicio, Date fechaFin);
 
-    @Query("{'estado' :  'ACTIVO' }")
-    List<Reporte> listarReportesActivos();
+    // Buscar reportes por coordenadas exactas (latitud y longitud)
+    @Query("{ 'ubicacion.latitud': ?0, 'ubicacion.longitud': ?1 }")
+    List<Reporte> buscarPorUbicacionExacta(Double lat, Double lng);
 }

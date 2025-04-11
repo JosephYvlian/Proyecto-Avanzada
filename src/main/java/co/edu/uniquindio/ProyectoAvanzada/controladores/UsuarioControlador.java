@@ -1,6 +1,5 @@
 package co.edu.uniquindio.ProyectoAvanzada.controladores;
 
-import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.CrearUsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.EditarUsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.MensajeDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.UsuarioDTO;
@@ -19,12 +18,6 @@ import java.util.List;
 
 public class UsuarioControlador {
     private final UsuarioServicio usuarioServicio;
-
-    @PostMapping
-    public ResponseEntity<MensajeDTO<String>> crear(@Valid @RequestBody CrearUsuarioDTO cuenta) throws Exception {
-        usuarioServicio.crear(cuenta);
-        return ResponseEntity.ok(new MensajeDTO<>(false, "Su registro ha sido exitoso"));
-    }
 
     @PutMapping("/{cedula}")
     public ResponseEntity<MensajeDTO<String>> editar(@Valid @RequestBody EditarUsuarioDTO cuenta, @PathVariable String cedula) throws Exception {

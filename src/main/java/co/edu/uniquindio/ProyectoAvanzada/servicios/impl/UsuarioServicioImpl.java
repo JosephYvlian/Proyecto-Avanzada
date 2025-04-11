@@ -161,3 +161,4 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         return String.format("%06d", codigo); // Rellena con ceros a la izquierda si es necesario
     }
 }
+

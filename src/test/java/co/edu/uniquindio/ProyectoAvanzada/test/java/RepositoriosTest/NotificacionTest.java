@@ -1,4 +1,4 @@
-package co.edu.uniquindio.ProyectoAvanzada.test.RepositoriosTest;
+package co.edu.uniquindio.ProyectoAvanzada.test.java.RepositoriosTest;
 
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Notificacion;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Reporte;

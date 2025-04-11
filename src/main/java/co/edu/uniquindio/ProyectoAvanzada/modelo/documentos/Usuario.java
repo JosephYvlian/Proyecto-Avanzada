@@ -3,6 +3,7 @@ package co.edu.uniquindio.ProyectoAvanzada.modelo.documentos;
 
 import co.edu.uniquindio.ProyectoAvanzada.modelo.enums.EstadoCuenta;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.enums.Rol;
+import co.edu.uniquindio.ProyectoAvanzada.modelo.vo.CodigoValidacion;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -33,5 +34,6 @@ public class Usuario {
     private String email;
     private String password;
     private EstadoCuenta estadoCuenta;
+    private CodigoValidacion codigoValidacion;
     private Date fechaRegistro;
 }

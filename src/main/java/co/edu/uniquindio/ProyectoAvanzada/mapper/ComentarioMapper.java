@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface ComentarioMapper {
 
-    @Mapping(target = "fechaComentario", expression = "java(java.time.LocalDateTime.now())")
+    @Mapping(target = "fecha", expression = "java(java.time.LocalDateTime.now())")
     Comentario toDocument(CrearComentarioDTO dto);
 
     ComentarioDTO toDTO(Comentario comentario);

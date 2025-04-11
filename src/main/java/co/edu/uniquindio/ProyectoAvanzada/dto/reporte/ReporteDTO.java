@@ -1,6 +1,7 @@
 package co.edu.uniquindio.ProyectoAvanzada.dto.reporte;
 
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Categoria;
+import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Comentario;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.vo.Ciudad;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.vo.Ubicacion;
 import org.bson.types.ObjectId;
@@ -14,6 +15,7 @@ public record ReporteDTO(
         Categoria categoria,
         String descripcion,
         Ubicacion ubicacion,
-        List<String> imagenes
+        List<String> imagenes,
+        List<Comentario> comentarios
 ) {
 }

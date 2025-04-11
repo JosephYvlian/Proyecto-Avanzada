@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +47,7 @@ public class ComentarioTest {
                 .idUsuario(idUsuario)
                 .idReporte(idReporte)
                 .comentario("Esto es muy grave, ojalá lo atrapen")
-                .fecha(new Date())
+                .fecha(LocalDateTime.now())
                 .build();
 
         Comentario guardado = comentarioRepo.save(comentario);

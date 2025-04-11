@@ -7,17 +7,30 @@ import org.simplejavamail.api.mailer.Mailer;
 import org.simplejavamail.api.mailer.config.TransportStrategy;
 import org.simplejavamail.email.EmailBuilder;
 import org.simplejavamail.mailer.MailerBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmailServicioImpl implements EmailServicio {
 
+    @Value("${spring.mail.host}")
+    private String HOST;
+
+    @Value("${spring.mail.port}")
+    private int PUERTO;
+
+    @Value("${spring.mail.username}")
+    private String USUARIO;
+
+    @Value("${spring.mail.password}")
+    private String PASSWORD;
+
     @Override
     @Async
     public void enviarCorreo(EmailDTO emailDTO) throws Exception {
         Email email = EmailBuilder.startingBlank()
-                .from("federico.alvarez978@gmail.com")
+                .from("federico.alvarezm@uqvirtual.edu.co")
                 .to(emailDTO.correoDestino())
                 .withSubject(emailDTO.asunto())
                 .withPlainText(emailDTO.cuerpo())
@@ -25,7 +38,7 @@ public class EmailServicioImpl implements EmailServicio {
 
 
         try(Mailer mailer = MailerBuilder
-                .withSMTPServer("smtp.gmail.com", 587, "federico.alvarez978@gmail.com", "qhas ybls otnc apay")
+                .withSMTPServer(HOST, PUERTO, USUARIO, PASSWORD)
                 .withTransportStrategy(TransportStrategy.SMTP_TLS)
                 .withDebugLogging(true)
                 .buildMailer()) {

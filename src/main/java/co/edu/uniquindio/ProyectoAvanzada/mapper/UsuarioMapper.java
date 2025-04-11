@@ -1,6 +1,6 @@
 package co.edu.uniquindio.ProyectoAvanzada.mapper;
 
-import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.CrearUsuarioDTO;
+import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.RegistroDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.EditarUsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.UsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Usuario;
@@ -12,7 +12,7 @@ public interface UsuarioMapper {
 
     // Mapear DTO de creación hacia documento Usuario
     @Mapping(target = "fechaRegistro", expression = "java(java.time.LocalDateTime.now())")
-    Usuario toDocument(CrearUsuarioDTO usuarioDTO);
+    Usuario toDocument(RegistroDTO usuarioDTO);
 
     // Mapear Usuario → UsuarioDTO (asumo que tienes este DTO ya definido)
     UsuarioDTO toDTO(Usuario usuario);

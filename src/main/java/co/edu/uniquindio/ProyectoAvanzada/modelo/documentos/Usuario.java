@@ -3,6 +3,7 @@ package co.edu.uniquindio.ProyectoAvanzada.modelo.documentos;
 
 import co.edu.uniquindio.ProyectoAvanzada.modelo.enums.EstadoCuenta;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.enums.Rol;
+import co.edu.uniquindio.ProyectoAvanzada.modelo.vo.CodigoValidacion;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -18,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
+@Builder
 public class Usuario {
 
     @Id
@@ -32,6 +34,7 @@ public class Usuario {
     private String password;
     private EstadoCuenta estadoCuenta;
     private LocalDateTime fechaRegistro;
+    private CodigoValidacion codigoValidacion;
 
 
 }

@@ -20,8 +20,8 @@ public class Notificacion {
     @Id
     private String idNotificacion;
 
-    private String idUsuario;
-    private String idReporte;
+    private ObjectId idUsuario;
+    private ObjectId idReporte;
     private String tituloNotificacion;
     private String mensaje;
     private boolean estado;

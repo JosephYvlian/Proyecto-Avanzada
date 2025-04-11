@@ -1,8 +1,11 @@
 package co.edu.uniquindio.ProyectoAvanzada.servicios.impl;
 
 
+import co.edu.uniquindio.ProyectoAvanzada.dto.TokenDTO;
+import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.CodVerificacionDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.EmailDTO;
-import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.CrearUsuarioDTO;
+import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.LoginDTO;
+import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.RegistroDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.EditarUsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.UsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.mapper.UsuarioMapper;
@@ -12,15 +15,19 @@ import co.edu.uniquindio.ProyectoAvanzada.modelo.enums.Rol;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.vo.CodigoValidacion;
 import co.edu.uniquindio.ProyectoAvanzada.repositorios.CodigoRepo;
 import co.edu.uniquindio.ProyectoAvanzada.repositorios.UsuarioRepo;
+import co.edu.uniquindio.ProyectoAvanzada.seguridad.JWTUtils;
 import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.EmailServicio;
 import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.UsuarioServicio;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 
 @Service
@@ -31,9 +38,11 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     private final UsuarioMapper usuarioMapper;
     private final EmailServicio emailServicio;
     private final CodigoRepo codigoRepo;
+    private final PasswordEncoder passwordEncoder;
+    private final JWTUtils jwtUtils;
 
     @Override
-    public void crear(CrearUsuarioDTO cuenta) {
+    public void crear(RegistroDTO cuenta) {
         if (siExisteEmail(cuenta.email())) {
             throw new RuntimeException("El correo ya está en uso");
         }
@@ -49,7 +58,14 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         // Generar código y expiración
         String codigo = generarCodigo();
         LocalDateTime expiracion = LocalDateTime.now().plusMinutes(15);
-        usuario.setCodigoValidacion(new CodigoValidacion(codigo, cuenta.email(), expiracion));
+
+        // Guardar código en colección aparte
+        CodigoValidacion codigoValidacion = new CodigoValidacion();
+        codigoValidacion.setCodigo(codigo);
+        codigoValidacion.setEmail(cuenta.email());
+        codigoValidacion.setFecha(expiracion);
+
+        codigoRepo.save(codigoValidacion);
 
 
         // Guardar usuario
@@ -126,26 +142,52 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     }
 
     @Override
-    public void verificarUsuario(String email, String codigo) {
+    public void verificarUsuario(CodVerificacionDTO codVerificacion) {
 
-        CodigoValidacion codigoValidacion = codigoRepo.buscarPorEmail(email).orElse(null);
+        CodigoValidacion codigoValidacion = codigoRepo.buscarPorEmail(codVerificacion.email())
+                .orElseThrow(() -> new RuntimeException("No hay código de verificación para este correo."));
 
-        assert codigoValidacion != null;
-        if(!codigoValidacion.getCodigo().equals(codigo)) {
-            throw new RuntimeException("No hay codigo de verificacion para este correo.");
+        if (!codigoValidacion.getCodigo().equals(codVerificacion.codigo())) {
+            throw new RuntimeException("El código del usuario no es válido");
         }
 
-        LocalDateTime expiracion = LocalDateTime.now().plusMinutes(15);
-
-        if(LocalDateTime.now().isAfter(expiracion)) {
-            throw new RuntimeException("El codigo ha expirado.");
+        if (LocalDateTime.now().isAfter(codigoValidacion.getFecha())) {
+            throw new RuntimeException("El código ha expirado.");
         }
 
-        Usuario usuario = usuarioRepo.buscarUsuarioPorEmail(email).orElse(null);
+        Usuario usuario = usuarioRepo.buscarUsuarioPorEmail(codVerificacion.email())
+                .orElseThrow(() -> new RuntimeException("No se encontró el usuario"));
 
-        assert usuario != null;
         usuario.setEstadoCuenta(EstadoCuenta.ACTIVO);
-        codigoRepo.delete(codigoValidacion);
+        usuarioRepo.save(usuario); // <- ¡Importante! Hay que guardar los cambios
+
+        codigoRepo.delete(codigoValidacion); // <- Eliminamos el código porque ya se usó
+    }
+
+    @Override
+    public TokenDTO login(LoginDTO loginDTO) throws Exception {
+        Optional<Usuario> optionalUsuario = usuarioRepo.buscarUsuarioPorEmail(loginDTO.email());
+
+        if (optionalUsuario.isEmpty()) {
+            throw new Exception("El usuario no existe");
+        }
+
+        Usuario usuario = optionalUsuario.get();
+
+        if (!passwordEncoder.matches(loginDTO.password(), usuario.getPassword())) {
+            throw new Exception("Contraseña incorrecta");
+        }
+
+        String token = jwtUtils.generateToken(usuario.getIdUsuario(), crearClaims(usuario));
+        return new TokenDTO(token);
+    }
+
+    private Map<String, String> crearClaims(Usuario usuario) {
+        return Map.of(
+                "email", usuario.getEmail(),
+                "nombre", usuario.getNombre(),
+                "rol", "ROLE_" + usuario.getRol().name()
+        );
     }
 
     private boolean siExisteEmail(String email) {

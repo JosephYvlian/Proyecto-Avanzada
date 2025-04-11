@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -40,11 +41,11 @@ public class ReporteTest {
 
         Reporte reporte = Reporte.builder()
                 .titulo("Me acaban de robar, demonios")
-                .categoria(categoriaId)
+                .categoria(categoria)
                 .ciudad(ciudad)
                 .descripcion("Un careloco me acaba de robar cerca al estadio")
                 .ubicacion(ubicacion)
-                .fecha(new Date())
+                .fecha(LocalDateTime.now())
                 .imagenes(List.of("img1.png", "img2.png"))
                 .build();
 

@@ -34,7 +34,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 
     @Override
     public void editar(EditarUsuarioDTO cuenta) {
-        Usuario usuario = usuarioRepo.findById(cuenta.id()).orElse(null);
+        Usuario usuario = usuarioRepo.buscarUsuarioPorCorreo(cuenta.email()).orElse(null);
 
         if (usuario == null) {
             throw new RuntimeException("El usuario no existe");

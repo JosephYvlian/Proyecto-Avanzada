@@ -3,14 +3,10 @@ package co.edu.uniquindio.ProyectoAvanzada.controladores;
 import co.edu.uniquindio.ProyectoAvanzada.dto.MensajeDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.comentario.ComentarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.comentario.CrearComentarioDTO;
-import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Comentario;
 import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.ComentarioServicio;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,7 +18,7 @@ public class ComentarioControlador {
 
     @PostMapping
     public ResponseEntity<MensajeDTO<String>> crearComentario(@RequestBody CrearComentarioDTO dto) {
-        String id = comentarioServicio.crearComentario(dto);
+        comentarioServicio.crearComentario(dto);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Comentario creado."));
     }
 

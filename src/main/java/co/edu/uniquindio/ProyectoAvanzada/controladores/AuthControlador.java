@@ -31,19 +31,19 @@ public class AuthControlador {
         return ResponseEntity.ok(new MensajeDTO<>(false, "Usuario registrado exitosamente"));
     }
 
-    @PostMapping("/verificar")
+    @PostMapping("/verificarUsuario")
     public ResponseEntity<MensajeDTO<String>> verificarCodigo(@RequestBody CodVerificacionDTO codVerificacion) {
         usuarioServicio.verificarUsuario(codVerificacion);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Codigo verificado correctamente"));
     }
 
-    @PostMapping("/recuperar")
+    @PostMapping("/recuperarContrasena")
     public ResponseEntity<MensajeDTO<String>> recuperarContrasena(@RequestBody RecuperarContrasenaDTO recuperarContrasena) {
         usuarioServicio.recuperarContrasena(recuperarContrasena);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Contrasena recuperada exitosamente"));
     }
 
-    @PutMapping("/actualizar")
+    @PutMapping("/actualizarContrasena")
     public ResponseEntity<MensajeDTO<String>> cambiarContrasena(@RequestBody ActualizarContrasenaDTO actualizarContrasena) {
         usuarioServicio.actualizarContrasena(actualizarContrasena);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Contrasena actualizada exitosamente"));

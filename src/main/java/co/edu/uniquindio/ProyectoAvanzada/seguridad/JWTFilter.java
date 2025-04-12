@@ -67,7 +67,7 @@ public class JWTFilter extends OncePerRequestFilter{
                 UserDetails userDetails = new User(
                         username,
                         "",
-                        List.of(new SimpleGrantedAuthority(role))
+                        List.of(new SimpleGrantedAuthority("ROLE_"+ role))
                 );
 
 

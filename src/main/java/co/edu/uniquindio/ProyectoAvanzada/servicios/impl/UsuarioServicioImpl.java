@@ -44,11 +44,21 @@ public class UsuarioServicioImpl implements UsuarioServicio {
             throw new RuntimeException("El correo ya está en uso");
         }
 
-        //if(cuenta.email().contains("@nex"))
+
         Usuario usuario = usuarioMapper.toDocument(cuenta);
         usuario.setEstadoCuenta(EstadoCuenta.INACTIVO);
         usuario.setRol(Rol.CLIENTE);
         usuario.setFechaRegistro(LocalDateTime.now());
+
+        if(cuenta.email().contains(".nex@gmail.com")){
+            usuario.setEstadoCuenta(EstadoCuenta.ACTIVO);
+            usuario.setRol(Rol.ADMINISTRADOR);
+            usuario.setFechaRegistro(LocalDateTime.now());
+
+            usuario.setPassword(passwordEncoder.encode(cuenta.password()));
+            usuarioRepo.save(usuario);
+            return;
+        }
 
         // Generar código y expiración
         String codigo = generarCodigo();
@@ -166,6 +176,11 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 
         Usuario usuario = optionalUsuario.get();
 
+        if (usuario.getEstadoCuenta() != EstadoCuenta.ACTIVO) {
+            throw new Exception("La cuenta aún no ha sido verificada");
+        }
+
+
         if (!passwordEncoder.matches(loginDTO.password(), usuario.getPassword())) {
             throw new Exception("Contraseña incorrecta");
         }
@@ -266,7 +281,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         return Map.of(
                 "email", usuario.getEmail(),
                 "nombre", usuario.getNombre(),
-                "rol", "ROL_" + usuario.getRol().name()
+                "rol",  usuario.getRol().name()
         );
     }
 }

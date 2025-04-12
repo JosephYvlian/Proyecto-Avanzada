@@ -26,14 +26,14 @@ public class ComentarioControlador {
         return ResponseEntity.ok(new MensajeDTO<>(false, "Comentario creado."));
     }
 
-    @GetMapping("/reporte/{idReporte}")
+    @GetMapping("/{idReporte}")
     public ResponseEntity<MensajeDTO<List<ComentarioDTO>>> listarComentarios(@PathVariable String idReporte) {
         List<ComentarioDTO> comentarios = comentarioServicio.listarComentariosPorReporte(idReporte);
         return ResponseEntity.ok(new MensajeDTO<>(false, comentarios));
     }
 
-    @DeleteMapping("/{idReporte}")
-    public ResponseEntity<MensajeDTO<String>> eliminarComentario(@PathVariable String idReporte) {
+    @DeleteMapping("/{idReporte}/{idComentario}")
+    public ResponseEntity<MensajeDTO<String>> eliminarComentario(@PathVariable String idReporte, @PathVariable String idComentario) {
         comentarioServicio.eliminarComentario(idReporte);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Comentario eliminado correctamente."));
     }

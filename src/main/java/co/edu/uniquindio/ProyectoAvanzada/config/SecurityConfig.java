@@ -31,7 +31,6 @@ public class SecurityConfig {
 
     private final JWTFilter jwtFilter;
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // Configura la seguridad HTTP para la aplicación
@@ -40,16 +39,22 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers("/api/auth/**").permitAll()
-                       .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/api/auth/**",
+                                        "/swagger-ui/**",
+                                        "/v3/api-docs/**",
+                                        "/api/usuarios",
+                                        "/api/categorias",
+                                        "/api/reportes",
+                                        "/api/comentarios/**").permitAll()
+
                         .requestMatchers("/api/usuarios/**").authenticated()
-                        .requestMatchers("/api/categorias/**").authenticated()
+                        .requestMatchers("/api/categorias/**").hasRole("ADMINISTRADOR")
                         .requestMatchers("/api/reportes/**").authenticated()
-                        .requestMatchers("/api/comentarios/**").authenticated()
                         .requestMatchers("/api/notificaciones/**").authenticated()
                         .anyRequest().authenticated()
                 )
-                .exceptionHandling(ex -> ex.authenticationEntryPoint( new co.edu.uniquindio.proyecto.seguridad.AutenticacionEntryPoint() ))
+
+                .exceptionHandling(ex -> ex.authenticationEntryPoint( new AutenticacionEntryPoint() ))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
 

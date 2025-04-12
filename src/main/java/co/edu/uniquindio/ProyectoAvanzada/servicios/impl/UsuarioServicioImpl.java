@@ -2,10 +2,7 @@ package co.edu.uniquindio.ProyectoAvanzada.servicios.impl;
 
 
 import co.edu.uniquindio.ProyectoAvanzada.dto.TokenDTO;
-import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.CodVerificacionDTO;
-import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.EmailDTO;
-import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.LoginDTO;
-import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.RegistroDTO;
+import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.*;
 import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.EditarUsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.UsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.mapper.UsuarioMapper;
@@ -47,9 +44,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
             throw new RuntimeException("El correo ya está en uso");
         }
 
-        if ((siExisteCedula(cuenta.cedula()))) {
-            throw new RuntimeException("La cedula ya existe");
-        }
+        //if(cuenta.email().contains("@nex"))
         Usuario usuario = usuarioMapper.toDocument(cuenta);
         usuario.setEstadoCuenta(EstadoCuenta.INACTIVO);
         usuario.setRol(Rol.CLIENTE);
@@ -68,11 +63,13 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         codigoRepo.save(codigoValidacion);
 
 
-        // Guardar usuario
+        /// Guardar usuario
+        usuario.setPassword(passwordEncoder.encode(cuenta.password()));
         usuarioRepo.save(usuario);
 
+
         // Crear el mensaje del correo
-        String asunto = "Código de verificación de tu cuenta";
+        String asunto = "Verification Code NEX Platform";
         String cuerpo = "Hola " + cuenta.nombre() + ",\n\nTu código de verificación es: " + codigo +
                 "\nEste código expirará en 15 minutos.\n\nGracias por registrarte.";
 
@@ -87,15 +84,11 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     }
 
     @Override
-    public void editar(EditarUsuarioDTO cuenta, String cedula){
-        Usuario usuario = usuarioRepo.buscarUsuarioPorCedula(cedula).orElse(null);
+    public void editar(EditarUsuarioDTO cuenta, String idUsuario){
+        Usuario usuario = usuarioRepo.buscarUsuarioPorId(idUsuario).orElse(null);
 
-        if (usuario == null || !siExisteCedula(cedula)) {
+        if (usuario == null || !siExisteId(idUsuario)) {
             throw new RuntimeException("El usuario no existe. ");
-        }
-
-        if (!usuario.getEmail().equals(cuenta.email()) && siExisteEmail(cuenta.email())) {
-            throw new RuntimeException("El nuevo correo ya está en uso");
         }
 
         usuarioMapper.actualizarUsuarioDesdeDTO(usuario, cuenta);
@@ -103,8 +96,8 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     }
 
     @Override
-    public void eliminar(String cedula) {
-        Usuario usuario = usuarioRepo.buscarUsuarioPorCedula(cedula).orElse(null);
+    public void eliminar(String idUsuario) {
+        Usuario usuario = usuarioRepo.buscarUsuarioPorId(idUsuario).orElse(null);
 
         if (usuario == null) {
             throw new RuntimeException("El usuario no existe");
@@ -115,8 +108,8 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     }
 
     @Override
-    public UsuarioDTO obtener(String cedula) {
-        Usuario usuario = usuarioRepo.buscarUsuarioPorCedula(cedula).orElse(null);
+    public UsuarioDTO obtener(String idUsuario) {
+        Usuario usuario = usuarioRepo.buscarUsuarioPorId(idUsuario).orElse(null);
 
         if (usuario == null) {
             throw new RuntimeException("El usuario no existe");
@@ -159,9 +152,8 @@ public class UsuarioServicioImpl implements UsuarioServicio {
                 .orElseThrow(() -> new RuntimeException("No se encontró el usuario"));
 
         usuario.setEstadoCuenta(EstadoCuenta.ACTIVO);
-        usuarioRepo.save(usuario); // <- ¡Importante! Hay que guardar los cambios
-
-        codigoRepo.delete(codigoValidacion); // <- Eliminamos el código porque ya se usó
+        usuarioRepo.save(usuario);
+        codigoRepo.delete(codigoValidacion);
     }
 
     @Override
@@ -182,25 +174,99 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         return new TokenDTO(token);
     }
 
-    private Map<String, String> crearClaims(Usuario usuario) {
-        return Map.of(
-                "email", usuario.getEmail(),
-                "nombre", usuario.getNombre(),
-                "rol", "ROLE_" + usuario.getRol().name()
-        );
+    @Override
+    public void recuperarUsuario(String email) {
+
+        Usuario usuario = usuarioRepo.buscarUsuarioPorEmail(email)
+                .orElseThrow(() -> new RuntimeException("No existe un usuario con ese correo"));
+
+        // Generar código y expiración
+        String codigo = generarCodigo();
+        LocalDateTime expiracion = LocalDateTime.now().plusMinutes(15);
+
+        // Guardar código en colección aparte
+        CodigoValidacion codigoValidacion = new CodigoValidacion();
+        codigoValidacion.setCodigo(codigo);
+        codigoValidacion.setEmail(email);
+        codigoValidacion.setFecha(expiracion);
+
+        codigoRepo.save(codigoValidacion);
+
+        // Crear el mensaje del correo
+        String asunto = "Código de recuperación de contraseña - NEX";
+        String cuerpo = "Hola " + usuario.getNombre() + ",\n\n" +
+                "Has solicitado recuperar tu cuenta. Tu código de verificación es: " + codigo +
+                "\nEste código expirará en 15 minutos.\n\n" +
+                "Si no solicitaste esto, ignora este mensaje.";
+
+        EmailDTO emailDTO = new EmailDTO(asunto, cuerpo, email);
+
+        try {
+            emailServicio.enviarCorreo(emailDTO);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al enviar el correo de recuperación", e);
+        }
+    }
+
+    @Override
+    public void actualizarContrasena(ActualizarContrasenaDTO actualizarContrasena) {
+        Usuario usuario = usuarioRepo.buscarUsuarioPorEmail(actualizarContrasena.email())
+                .orElseThrow(() -> new RuntimeException("No se encontró el usuario con ese correo"));
+
+        // Verifica que la contraseña actual ingresada coincida con la guardada
+        if (!passwordEncoder.matches(actualizarContrasena.contrasenaActual(), usuario.getPassword())) {
+            throw new RuntimeException("La contraseña actual es incorrecta");
+        }
+
+        // Encripta y actualiza la nueva contraseña
+        usuario.setPassword(passwordEncoder.encode(actualizarContrasena.contrasenaNueva()));
+        usuarioRepo.save(usuario);
+    }
+
+    @Override
+    public void recuperarContrasena(RecuperarContrasenaDTO recuperarContrasena) {
+
+        CodigoValidacion codigoValidacion = codigoRepo.buscarPorEmail(recuperarContrasena.email())
+                .orElseThrow(() -> new RuntimeException("No hay código registrado para este correo"));
+
+        if (!codigoValidacion.getCodigo().equals(recuperarContrasena.codigo())) {
+            throw new RuntimeException("El código ingresado no es válido");
+        }
+
+        if (LocalDateTime.now().isAfter(codigoValidacion.getFecha())) {
+            throw new RuntimeException("El código ha expirado");
+        }
+
+        Usuario usuario = usuarioRepo.buscarUsuarioPorEmail(recuperarContrasena.email())
+                .orElseThrow(() -> new RuntimeException("No se encontró el usuario con ese correo"));
+
+        usuario.setPassword(passwordEncoder.encode(recuperarContrasena.nuevaContrasena()));
+
+        usuarioRepo.save(usuario);
+
+        // Eliminar código para evitar reutilización
+        codigoRepo.delete(codigoValidacion);
+
     }
 
     private boolean siExisteEmail(String email) {
         return usuarioRepo.buscarUsuarioPorEmail(email).isPresent();
     }
 
-    private boolean siExisteCedula(String cedula) {
-        return usuarioRepo.buscarUsuarioPorCedula(cedula).isPresent();
+    private boolean siExisteId(String idUsuario) {
+        return usuarioRepo.buscarUsuarioPorId(idUsuario).isPresent();
     }
 
     private String generarCodigo() {
         int codigo = (int)(Math.random() * 1_000_000); // Valor entre 0 y 999999
         return String.format("%06d", codigo); // Rellena con ceros a la izquierda si es necesario
     }
-}
 
+    private Map<String, String> crearClaims(Usuario usuario) {
+        return Map.of(
+                "email", usuario.getEmail(),
+                "nombre", usuario.getNombre(),
+                "rol", "ROL_" + usuario.getRol().name()
+        );
+    }
+}

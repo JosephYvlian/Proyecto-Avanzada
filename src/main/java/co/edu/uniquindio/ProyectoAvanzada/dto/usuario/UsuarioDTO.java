@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
 
-public record UsuarioDTO(String cedula,
+public record UsuarioDTO(
         Rol rol,
         @NotBlank @Length(max = 100) String nombre,
         @Length(max = 10) String telefono,

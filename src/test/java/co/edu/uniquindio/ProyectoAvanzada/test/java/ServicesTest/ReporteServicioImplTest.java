@@ -19,7 +19,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ReporteServicioImplTest {
 
     @Autowired
@@ -31,9 +30,9 @@ public class ReporteServicioImplTest {
     @Autowired
     private CategoriaRepo categoriaRepo;
 
-    private static String codigoReporteCreado = "null1";
+    private static String reporteExistenteID = "67f9f81d8158242db1ee7d02";
 
-    private static final String idCategoriaPrueba = "67f9a9e3bb5f2573c2cbbd7e"; //ID válido de Mongo
+    private static final String idCategoriaPrueba = "67f9f623e2151f60f7ac6a9b"; //ID válido de Mongo
 
     private static Categoria categoriaDePrueba;
 
@@ -56,13 +55,13 @@ public class ReporteServicioImplTest {
         assertFalse(reportes.isEmpty());
 
         Reporte ultimo = reportes.getLast();
-        codigoReporteCreado = ultimo.getCodigoReporte();
+        reporteExistenteID = ultimo.getIdReporte();
         assertEquals(EstadoReporte.PENDIENTE, ultimo.getEstado());
     }
 
     @Test
     public void testObtenerReporte() {
-        ReporteDTO dto = reporteServicio.obtenerReporte(codigoReporteCreado);
+        ReporteDTO dto = reporteServicio.obtenerReporte(reporteExistenteID);
         assertNotNull(dto);
         assertEquals("Fuego en el parque", dto.titulo());
     }
@@ -71,6 +70,9 @@ public class ReporteServicioImplTest {
     public void testListarReportes() {
         List<ReporteDTO> reportes = reporteServicio.listarReporte();
         assertFalse(reportes.isEmpty());
+
+        //PRUEBA PARA VER LA LISTA DE REPORTES
+        System.out.println(reportes);
     }
 
     @Test
@@ -87,29 +89,29 @@ public class ReporteServicioImplTest {
                 List.of("img_editada.png")
         );
 
-        reporteServicio.editarReporte(codigoReporteCreado, editarDTO);
+        reporteServicio.editarReporte(reporteExistenteID, editarDTO);
 
-        Reporte actualizado = reporteRepo.buscarReportePorCodigo(codigoReporteCreado).orElseThrow();
+        Reporte actualizado = reporteRepo.findById(reporteExistenteID).orElseThrow();
         assertEquals("Incendio editado", actualizado.getTitulo());
         assertEquals(EstadoReporte.RESUELTO, actualizado.getEstado());
     }
 
     @Test
     public void testMarcarReporte() {
-        Reporte antes = reporteRepo.buscarReportePorCodigo(codigoReporteCreado).orElseThrow();
+        Reporte antes = reporteRepo.findById(reporteExistenteID).orElseThrow();
         int votosAntes = antes.getVotosImportancia() != null ? antes.getVotosImportancia() : 0;
 
-        reporteServicio.marcarReporte(codigoReporteCreado);
+        reporteServicio.marcarReporte(reporteExistenteID);
 
-        Reporte despues = reporteRepo.buscarReportePorCodigo(codigoReporteCreado).orElseThrow();
+        Reporte despues = reporteRepo.findById(reporteExistenteID).orElseThrow();
         assertEquals(votosAntes + 1, despues.getVotosImportancia());
     }
 
     @Test
     public void testEliminarReporte() {
-        reporteServicio.eliminarReporte(codigoReporteCreado);
+        reporteServicio.eliminarReporte(reporteExistenteID);
 
-        Reporte eliminado = reporteRepo.buscarReportePorCodigo(codigoReporteCreado).orElseThrow();
+        Reporte eliminado = reporteRepo.findById(reporteExistenteID).orElseThrow();
         assertEquals(EstadoReporte.ELIMINADO, eliminado.getEstado());
     }
 }

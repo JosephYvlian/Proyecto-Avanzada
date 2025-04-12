@@ -30,6 +30,6 @@ public class Reporte {
     private LocalDateTime fecha;
     private List<String> imagenes;
     private EstadoReporte estado;
-    private Integer votosImportancia;
+    private Integer votosImportancia = 0;
 
 }

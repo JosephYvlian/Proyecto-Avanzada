@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 
 @Schema
 public record RegistroDTO(
-        String id,
         Rol rol,
         @NotBlank @Length(max = 100) String nombre,
         @Length(max = 10) String telefono,
@@ -24,5 +23,3 @@ public record RegistroDTO(
         LocalDateTime fechaRegistro
 ) {
 }
-
-

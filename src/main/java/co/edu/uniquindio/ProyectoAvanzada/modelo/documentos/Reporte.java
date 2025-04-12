@@ -2,9 +2,7 @@ package co.edu.uniquindio.ProyectoAvanzada.modelo.documentos;
 
 import co.edu.uniquindio.ProyectoAvanzada.modelo.enums.EstadoReporte;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.vo.Ubicacion;
-import co.edu.uniquindio.ProyectoAvanzada.modelo.vo.Ciudad;
 import lombok.*;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -23,7 +21,6 @@ public class Reporte {
     @Id
     private String idReporte;
 
-    private String codigoReporte;
     private String titulo;
     private Categoria categoria;
     private Ciudad ciudad;

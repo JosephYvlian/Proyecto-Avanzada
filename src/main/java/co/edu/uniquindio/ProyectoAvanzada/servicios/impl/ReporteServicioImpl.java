@@ -25,7 +25,6 @@ public class ReporteServicioImpl implements ReporteServicio {
     public void crearReporte(CrearReporteDTO reporteDTO) {
         Reporte reporte = reporteMapper.toDocument(reporteDTO);
         reporte.setEstado(EstadoReporte.PENDIENTE);
-        reporte.setCodigoReporte(reporte.getCodigoReporte() + 1);
         reporteRepo.save(reporte);
     }
 

@@ -1,0 +1,115 @@
+package co.edu.uniquindio.ProyectoAvanzada.test.java.ServicesTest;
+
+import co.edu.uniquindio.ProyectoAvanzada.dto.reporte.CrearReporteDTO;
+import co.edu.uniquindio.ProyectoAvanzada.dto.reporte.EditarReporteDTO;
+import co.edu.uniquindio.ProyectoAvanzada.dto.reporte.ReporteDTO;
+import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Categoria;
+import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Reporte;
+import co.edu.uniquindio.ProyectoAvanzada.modelo.enums.EstadoReporte;
+import co.edu.uniquindio.ProyectoAvanzada.modelo.vo.Ubicacion;
+import co.edu.uniquindio.ProyectoAvanzada.repositorios.CategoriaRepo;
+import co.edu.uniquindio.ProyectoAvanzada.repositorios.ReporteRepo;
+import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.ReporteServicio;
+import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+public class ReporteServicioImplTest {
+
+    @Autowired
+    private ReporteServicio reporteServicio;
+
+    @Autowired
+    private ReporteRepo reporteRepo;
+
+    @Autowired
+    private CategoriaRepo categoriaRepo;
+
+    private static String codigoReporteCreado = "null1";
+
+    private static final String idCategoriaPrueba = "67f9a9e3bb5f2573c2cbbd7e"; //ID válido de Mongo
+
+    private static Categoria categoriaDePrueba;
+
+    @Test
+    public void testCrearReporte() {
+        categoriaDePrueba = categoriaRepo.findById(idCategoriaPrueba).orElseThrow(() -> new RuntimeException("Categoría no encontrada con ID: " + idCategoriaPrueba));
+
+        CrearReporteDTO dto = new CrearReporteDTO(
+                "Fuego en el parque",
+                categoriaDePrueba,
+                "Se observó un incendio leve",
+                new Ubicacion(4.321, -75.123, "Armenia"),
+                EstadoReporte.PENDIENTE,
+                List.of("imagen1.png", "imagen2.png")
+        );
+
+        reporteServicio.crearReporte(dto);
+
+        List<Reporte> reportes = reporteRepo.findAll();
+        assertFalse(reportes.isEmpty());
+
+        Reporte ultimo = reportes.getLast();
+        codigoReporteCreado = ultimo.getCodigoReporte();
+        assertEquals(EstadoReporte.PENDIENTE, ultimo.getEstado());
+    }
+
+    @Test
+    public void testObtenerReporte() {
+        ReporteDTO dto = reporteServicio.obtenerReporte(codigoReporteCreado);
+        assertNotNull(dto);
+        assertEquals("Fuego en el parque", dto.titulo());
+    }
+
+    @Test
+    public void testListarReportes() {
+        List<ReporteDTO> reportes = reporteServicio.listarReporte();
+        assertFalse(reportes.isEmpty());
+    }
+
+    @Test
+    public void testEditarReporte() {
+        categoriaDePrueba = categoriaRepo.findById(idCategoriaPrueba)
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrada con ID: " + idCategoriaPrueba));
+
+        EditarReporteDTO editarDTO = new EditarReporteDTO(
+                "Incendio editado",
+                categoriaDePrueba,
+                "Descripción actualizada",
+                new Ubicacion(4.322, -75.124, "Armenia"),
+                EstadoReporte.RESUELTO,
+                List.of("img_editada.png")
+        );
+
+        reporteServicio.editarReporte(codigoReporteCreado, editarDTO);
+
+        Reporte actualizado = reporteRepo.buscarReportePorCodigo(codigoReporteCreado).orElseThrow();
+        assertEquals("Incendio editado", actualizado.getTitulo());
+        assertEquals(EstadoReporte.RESUELTO, actualizado.getEstado());
+    }
+
+    @Test
+    public void testMarcarReporte() {
+        Reporte antes = reporteRepo.buscarReportePorCodigo(codigoReporteCreado).orElseThrow();
+        int votosAntes = antes.getVotosImportancia() != null ? antes.getVotosImportancia() : 0;
+
+        reporteServicio.marcarReporte(codigoReporteCreado);
+
+        Reporte despues = reporteRepo.buscarReportePorCodigo(codigoReporteCreado).orElseThrow();
+        assertEquals(votosAntes + 1, despues.getVotosImportancia());
+    }
+
+    @Test
+    public void testEliminarReporte() {
+        reporteServicio.eliminarReporte(codigoReporteCreado);
+
+        Reporte eliminado = reporteRepo.buscarReportePorCodigo(codigoReporteCreado).orElseThrow();
+        assertEquals(EstadoReporte.ELIMINADO, eliminado.getEstado());
+    }
+}

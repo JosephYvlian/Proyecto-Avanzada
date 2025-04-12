@@ -16,7 +16,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class CategoriaServiceImplTest {
+public class
+
+CategoriaServiceImplTest {
 
     @Autowired
     private CategoriaServicio categoriaServicio;

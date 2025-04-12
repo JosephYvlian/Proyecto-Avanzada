@@ -11,6 +11,9 @@ import java.util.List;
 @Repository
 public interface ComentarioRepo extends MongoRepository<Comentario, String> {
 
+    @Query("{ 'idComentario':  ?0}")
+    List<Comentario> buscarComentarioPorId(String idComentario);
+
     // Buscar comentarios hechos por un usuario
     @Query("{ 'idUsuario': ?0 }")
     List<Comentario> buscarPorUsuario(String idUsuario);
@@ -18,5 +21,7 @@ public interface ComentarioRepo extends MongoRepository<Comentario, String> {
     // Buscar comentarios asociados a un reporte
     @Query("{ 'idReporte': ?0 }")
     List<Comentario> buscarPorReporte(String idReporte);
+
+
 
 }

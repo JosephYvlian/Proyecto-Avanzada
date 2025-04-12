@@ -30,7 +30,7 @@ public class EmailServicioImpl implements EmailServicio {
     @Async
     public void enviarCorreo(EmailDTO emailDTO) throws Exception {
         Email email = EmailBuilder.startingBlank()
-                .from("federico.alvarezm@uqvirtual.edu.co")
+                .from("nexsoporte.nex@gmail.com")
                 .to(emailDTO.correoDestino())
                 .withSubject(emailDTO.asunto())
                 .withPlainText(emailDTO.cuerpo())

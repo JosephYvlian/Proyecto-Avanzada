@@ -1,5 +1,6 @@
 package co.edu.uniquindio.ProyectoAvanzada.modelo.documentos;
 
+import co.edu.uniquindio.ProyectoAvanzada.modelo.enums.Ciudad;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.enums.EstadoReporte;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.vo.Ubicacion;
 import lombok.*;

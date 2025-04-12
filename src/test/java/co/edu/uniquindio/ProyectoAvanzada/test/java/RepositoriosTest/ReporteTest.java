@@ -2,6 +2,7 @@ package co.edu.uniquindio.ProyectoAvanzada.test.java.RepositoriosTest;
 
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Categoria;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Reporte;
+import co.edu.uniquindio.ProyectoAvanzada.modelo.enums.Ciudad;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.vo.Ubicacion;
 import co.edu.uniquindio.ProyectoAvanzada.repositorios.CategoriaRepo;
 import co.edu.uniquindio.ProyectoAvanzada.repositorios.ReporteRepo;
@@ -35,13 +36,13 @@ public class ReporteTest {
         Categoria categoria = categoriaRepo.findById(String.valueOf(categoriaId))
                 .orElseThrow(() -> new IllegalArgumentException("La categoría no existe"));
 
-        Ciudad ciudad = new Ciudad("Armenia");
+        Ciudad ciudad = null;
         Ubicacion ubicacion = new Ubicacion(4.53454, -75.67543, "La Isabela");
 
         Reporte reporte = Reporte.builder()
                 .titulo("Me acaban de robar, demonios")
                 .categoria(categoria)
-                .ciudad(ciudad)
+                .ciudad(null)
                 .descripcion("Un careloco me acaba de robar cerca al estadio")
                 .ubicacion(ubicacion)
                 .fecha(LocalDateTime.now())

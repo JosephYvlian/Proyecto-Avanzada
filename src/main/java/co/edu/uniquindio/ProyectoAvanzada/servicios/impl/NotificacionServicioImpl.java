@@ -20,11 +20,14 @@ public class NotificacionServicioImpl implements NotificacionServicio {
         Notificacion notificacion = notificacionMapper.toDocument(notificacionDTO);
         notificacion.setEstado(false);
         notificacionRepo.save(notificacion);
-
     }
 
     @Override
     public void marcarComoLeido(String idNotificacion) {
+        Notificacion notificacion = notificacionRepo.findById(idNotificacion)
+                .orElseThrow(() -> new RuntimeException("Notificación no encontrada"));
 
+        notificacion.setEstado(true);
+        notificacionRepo.save(notificacion);
     }
 }

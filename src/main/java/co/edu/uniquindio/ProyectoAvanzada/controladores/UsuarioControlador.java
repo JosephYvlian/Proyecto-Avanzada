@@ -19,21 +19,21 @@ import java.util.List;
 public class UsuarioControlador {
     private final UsuarioServicio usuarioServicio;
 
-    @PutMapping("/{cedula}")
-    public ResponseEntity<MensajeDTO<String>> editar(@Valid @RequestBody EditarUsuarioDTO cuenta, @PathVariable String cedula) throws Exception {
-        usuarioServicio.editar(cuenta, cedula);
+    @PutMapping("/{idUsuario}")
+    public ResponseEntity<MensajeDTO<String>> editar(@Valid @RequestBody EditarUsuarioDTO cuenta, @PathVariable String idUsuario) throws Exception {
+        usuarioServicio.editar(cuenta, idUsuario);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Cuenta editada exitosamente"));
     }
 
-    @DeleteMapping("/{cedula}")
-    public ResponseEntity<MensajeDTO<String>> eliminar(@PathVariable String cedula) throws Exception{
-        usuarioServicio.eliminar(cedula);
+    @DeleteMapping("/{idUsuario}")
+    public ResponseEntity<MensajeDTO<String>> eliminar(@PathVariable String idUsuario) throws Exception{
+        usuarioServicio.eliminar(idUsuario);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Cuenta eliminada exitosamente"));
     }
 
-    @GetMapping("/{cedula}")
-    public ResponseEntity<MensajeDTO<UsuarioDTO>> obtener(@PathVariable String cedula) throws Exception{
-        UsuarioDTO info = usuarioServicio.obtener(cedula);
+    @GetMapping("/{idUsuario}")
+    public ResponseEntity<MensajeDTO<UsuarioDTO>> obtener(@PathVariable String idUsuario) throws Exception{
+        UsuarioDTO info = usuarioServicio.obtener(idUsuario);
         return ResponseEntity.ok(new MensajeDTO<>(false, info));
     }
 

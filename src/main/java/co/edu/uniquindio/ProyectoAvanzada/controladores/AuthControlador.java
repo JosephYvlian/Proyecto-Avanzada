@@ -38,12 +38,14 @@ public class AuthControlador {
     }
 
     @PostMapping("/recuperar")
-    public ResponseEntity<MensajeDTO<CodRecuperacionDTO>> recuperarContrasena(@RequestBody CodRecuperacionDTO codRecuperacion) {
-        return ResponseEntity.ok(new MensajeDTO<>(false, null));
+    public ResponseEntity<MensajeDTO<String>> recuperarContrasena(@RequestBody RecuperarContrasenaDTO recuperarContrasena) {
+        usuarioServicio.recuperarContrasena(recuperarContrasena);
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Contrasena recuperada exitosamente"));
     }
 
     @PutMapping("/actualizar")
-    public ResponseEntity<MensajeDTO<CambiarContrasenaDTO>> cambiarContrasena(@RequestBody CambiarContrasenaDTO cambiarContrasena) {
-        return ResponseEntity.ok(new MensajeDTO<>(false, null));
+    public ResponseEntity<MensajeDTO<String>> cambiarContrasena(@RequestBody ActualizarContrasenaDTO actualizarContrasena) {
+        usuarioServicio.actualizarContrasena(actualizarContrasena);
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Contrasena actualizada exitosamente"));
     }
 }

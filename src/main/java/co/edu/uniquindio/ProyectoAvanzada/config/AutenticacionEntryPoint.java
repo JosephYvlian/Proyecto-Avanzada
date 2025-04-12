@@ -1,4 +1,4 @@
-package co.edu.uniquindio.proyecto.seguridad;
+package co.edu.uniquindio.ProyectoAvanzada.config;
 
 
 import co.edu.uniquindio.ProyectoAvanzada.dto.MensajeDTO;

@@ -2,7 +2,6 @@ package co.edu.uniquindio.ProyectoAvanzada.test.java.RepositoriosTest;
 
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Categoria;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Reporte;
-import co.edu.uniquindio.ProyectoAvanzada.modelo.vo.Ciudad;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.vo.Ubicacion;
 import co.edu.uniquindio.ProyectoAvanzada.repositorios.CategoriaRepo;
 import co.edu.uniquindio.ProyectoAvanzada.repositorios.ReporteRepo;

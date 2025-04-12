@@ -1,9 +1,7 @@
 package co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces;
 
 import co.edu.uniquindio.ProyectoAvanzada.dto.TokenDTO;
-import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.CodVerificacionDTO;
-import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.LoginDTO;
-import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.RegistroDTO;
+import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.*;
 import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.EditarUsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.UsuarioDTO;
 import jakarta.validation.Valid;
@@ -18,6 +16,12 @@ public interface UsuarioServicio {
     void eliminar(String id);
 
     void verificarUsuario(CodVerificacionDTO codVerificacion);
+
+    void recuperarUsuario(String email);
+
+    void recuperarContrasena(RecuperarContrasenaDTO recuperarContrasena);
+
+    void actualizarContrasena(ActualizarContrasenaDTO actualizarContrasena);
 
     TokenDTO login(LoginDTO login) throws Exception;
 

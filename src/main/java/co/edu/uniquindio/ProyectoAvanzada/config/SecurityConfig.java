@@ -41,6 +41,12 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/api/auth/**").permitAll()
+                       .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/api/usuarios/**").authenticated()
+                        .requestMatchers("/api/categorias/**").authenticated()
+                        .requestMatchers("/api/reportes/**").authenticated()
+                        .requestMatchers("/api/comentarios/**").authenticated()
+                        .requestMatchers("/api/notificaciones/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(ex -> ex.authenticationEntryPoint( new co.edu.uniquindio.proyecto.seguridad.AutenticacionEntryPoint() ))

@@ -20,13 +20,8 @@ public interface UsuarioMapper {
     // Método personalizado para actualizar un Usuario desde un EditarUsuarioDTO
     default void actualizarUsuarioDesdeDTO(Usuario usuario, EditarUsuarioDTO dto) {
         usuario.setNombre(dto.nombre());
-        usuario.setEmail(dto.email());
         usuario.setCiudad(dto.ciudad());
         usuario.setDireccion(dto.direccion());
         usuario.setTelefono(dto.numTelefono());
-
-        if (dto.contrasena() != null && !dto.contrasena().isBlank()) {
-            usuario.setPassword(dto.contrasena());
-        }
     }
 }

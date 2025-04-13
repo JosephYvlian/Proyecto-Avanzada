@@ -34,9 +34,9 @@ public class ComentarioServicioImpl implements ComentarioServicio {
                 .map(comentarioMapper::toDTO)
                 .toList();
     }
+
     @Override
     public void eliminarComentario(String id) {
         comentarioRepo.deleteById(id);
-
     }
 }

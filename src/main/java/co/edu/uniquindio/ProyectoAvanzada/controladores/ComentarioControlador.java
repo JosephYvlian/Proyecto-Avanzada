@@ -17,20 +17,20 @@ public class ComentarioControlador {
     private final ComentarioServicio comentarioServicio;
 
     @PostMapping
-    public ResponseEntity<MensajeDTO<String>> crearComentario(@RequestBody CrearComentarioDTO dto) {
+    public ResponseEntity<MensajeDTO<String>> crearComentario(@RequestBody CrearComentarioDTO dto) throws Exception {
         comentarioServicio.crearComentario(dto);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Comentario creado."));
     }
 
     @GetMapping("/{idReporte}")
-    public ResponseEntity<MensajeDTO<List<ComentarioDTO>>> listarComentarios(@PathVariable String idReporte) {
-        List<ComentarioDTO> comentarios = comentarioServicio.listarComentariosPorReporte(idReporte);
+    public ResponseEntity<MensajeDTO<List<ComentarioDTO>>> listarComentarios(@PathVariable String idReporte) throws Exception {
+        List<ComentarioDTO> comentarios = comentarioServicio.listarComentariosDeReporte(idReporte);
         return ResponseEntity.ok(new MensajeDTO<>(false, comentarios));
     }
 
     @DeleteMapping("/{idReporte}/{idComentario}")
     public ResponseEntity<MensajeDTO<String>> eliminarComentario(@PathVariable String idReporte, @PathVariable String idComentario) {
-        comentarioServicio.eliminarComentario(idReporte);
+        comentarioServicio.eliminarComentario(idReporte, idComentario);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Comentario eliminado correctamente."));
     }
 }

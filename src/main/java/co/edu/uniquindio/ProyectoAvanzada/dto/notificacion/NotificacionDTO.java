@@ -8,7 +8,7 @@ import java.util.List;
 public record NotificacionDTO(
         String titulo,
         String mensaje,
-        boolean estado,
+        boolean leida,
         LocalDateTime fecha
 ) {
 }

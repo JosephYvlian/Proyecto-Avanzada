@@ -29,6 +29,7 @@ public class Reporte {
     private Ubicacion ubicacion;
     private LocalDateTime fecha;
     private List<String> imagenes;
+    private List<Comentario> comentarios;
     private EstadoReporte estado;
     private Integer votosImportancia = 0;
 

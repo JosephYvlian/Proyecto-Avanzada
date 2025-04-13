@@ -1,10 +1,8 @@
 package co.edu.uniquindio.ProyectoAvanzada.modelo.documentos;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.*;
-
 import java.time.LocalDateTime;
 
 @Document("comentarios")
@@ -20,8 +18,8 @@ public class Comentario {
     @Id
     private String idComentario;
 
-    private ObjectId idUsuario;
-    private ObjectId idReporte;
+    private String idUsuario;
+    private String idReporte;
     private String comentario;
     private LocalDateTime fecha;
 

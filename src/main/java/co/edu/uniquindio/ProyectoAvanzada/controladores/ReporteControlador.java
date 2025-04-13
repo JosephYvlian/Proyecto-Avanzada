@@ -6,12 +6,10 @@ import co.edu.uniquindio.ProyectoAvanzada.dto.reporte.EditarReporteDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.reporte.ReporteDTO;
 import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.ReporteServicio;
 import jakarta.validation.Valid;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -56,7 +54,7 @@ public class ReporteControlador {
         return ResponseEntity.ok(new MensajeDTO<>(false, "Reporte eliminado correctamente"));
     }
 
-    @PutMapping("/importante/{idReporte}")
+    @PutMapping("/{idReporte}/importante")
     public ResponseEntity<MensajeDTO<String>> marcarImportante(@PathVariable String idReporte) {
         reporteServicio.marcarReporte(idReporte);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Reporte marcado como importante"));

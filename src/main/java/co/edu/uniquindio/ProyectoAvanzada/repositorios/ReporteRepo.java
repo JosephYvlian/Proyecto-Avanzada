@@ -1,5 +1,6 @@
 package co.edu.uniquindio.ProyectoAvanzada.repositorios;
 
+import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Comentario;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Reporte;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -12,12 +13,15 @@ import java.util.Optional;
 @Repository
 public interface ReporteRepo extends MongoRepository<Reporte, String> {
 
-    @Query("{ 'codigoReporte':  ?0}")
-    Optional<Reporte> buscarReportePorCodigo(String codigoReporte);
+    @Query("{ '_id':  ?0}")
+    Optional<Reporte> buscarReportePorCodigo(String idReporte);
 
     // Buscar reportes por ID de categoría
     @Query("{ 'categoria': ?0 }")
     List<Reporte> buscarPorCategoria(String idCategoria);
+
+    @Query("{ 'idReporte':  ?0}")
+    List<Comentario> buscarComentariosPorReporte(String idReporte);
 
     // Buscar reportes por ciudad
     @Query("{ 'ciudad.nombre': ?0 }")

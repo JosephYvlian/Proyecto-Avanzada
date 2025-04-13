@@ -1,11 +1,12 @@
 package co.edu.uniquindio.ProyectoAvanzada.dto.comentario;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 public record CrearComentarioDTO(
-        String reporteId,
-        String usuarioId,
-        String mensaje
+        String idReporte,
+        String idUsuario,
+        String mensaje,
+        LocalDateTime fecha
 
 ) {
 }

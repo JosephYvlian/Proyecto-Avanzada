@@ -56,7 +56,7 @@ public class ReporteControlador {
         return ResponseEntity.ok(new MensajeDTO<>(false, "Reporte eliminado correctamente"));
     }
 
-    @PutMapping("/importante/{idReporte}")
+    @PutMapping("/{idReporte}/importante")
     public ResponseEntity<MensajeDTO<String>> marcarImportante(@PathVariable String idReporte) {
         reporteServicio.marcarReporte(idReporte);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Reporte marcado como importante"));

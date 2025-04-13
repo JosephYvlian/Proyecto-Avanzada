@@ -46,7 +46,8 @@ public class ReporteServicioImplTest {
                 "Se observó un incendio leve",
                 new Ubicacion(4.321, -75.123, "Armenia"),
                 EstadoReporte.PENDIENTE,
-                List.of("imagen1.png", "imagen2.png")
+                List.of("imagen1.png", "imagen2.png"),
+                5
         );
 
         reporteServicio.crearReporte(dto);

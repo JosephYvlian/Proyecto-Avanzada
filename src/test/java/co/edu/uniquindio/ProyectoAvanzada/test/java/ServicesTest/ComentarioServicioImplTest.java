@@ -33,10 +33,11 @@ public class ComentarioServicioImplTest {
         CrearComentarioDTO dto = new CrearComentarioDTO(
                 idReporte,
                 idUsuario, //
-                "Comentario Nuevo"
+                "Comentario Nuevo",
+                LocalDateTime.now()
         );
 
-        idComentarioCreado = comentarioServicio.crearComentario(dto);
+        comentarioServicio.crearComentario(dto);
 
         Comentario comentario = comentarioRepo.findById(idComentarioCreado).orElse(null);
         assertNotNull(comentario);
@@ -45,7 +46,7 @@ public class ComentarioServicioImplTest {
 
     @Test
     public void testEliminarComentario() {
-        comentarioServicio.eliminarComentario(idComentarioCreado);
+        comentarioServicio.eliminarComentario(idComentarioCreado, idReporte);
         boolean existe = comentarioRepo.findById(idComentarioCreado).isPresent();
         assertFalse(existe);
     }

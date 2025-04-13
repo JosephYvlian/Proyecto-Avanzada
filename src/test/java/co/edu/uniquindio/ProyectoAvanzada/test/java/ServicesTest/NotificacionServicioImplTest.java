@@ -1,5 +1,6 @@
 package co.edu.uniquindio.ProyectoAvanzada.test.java.ServicesTest;
 
+import co.edu.uniquindio.ProyectoAvanzada.dto.notificacion.EnviarNotificacionDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.notificacion.NotificacionDTO;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Notificacion;
 import co.edu.uniquindio.ProyectoAvanzada.repositorios.NotificacionRepo;
@@ -28,15 +29,15 @@ public class NotificacionServicioImplTest {
 
     @Test
     public void testEnviarNotificacion() {
-        NotificacionDTO dto = new NotificacionDTO(
-                "Alerta Importante",
-                "Un evento ha ocurrido cerca de ti.",
-                false,
-                LocalDateTime.now()
+        EnviarNotificacionDTO dto = new EnviarNotificacionDTO(
+                "usuario123",          // ID de usuario simulado
+                "reporte456",          // ID de reporte simulado
+                "Alerta Importante",   // Título de la notificación
+                "Un evento ha ocurrido cerca de ti." // Mensaje de la notificación
         );
 
-        // Enviar la notificación (idUsuario es opcional, puedes simular uno real si quieres)
-        notificacionServicio.enviarNotificacion(dto, idUsuario);
+        // Enviar la notificación (usamos el DTO con los parámetros adecuados)
+        notificacionServicio.enviarNotificacion(dto);
 
         List<Notificacion> lista = notificacionRepo.findAll();
         assertFalse(lista.isEmpty());
@@ -45,7 +46,7 @@ public class NotificacionServicioImplTest {
         idNotificacionCreada = ultima.getIdNotificacion();
 
         assertEquals("Alerta Importante", ultima.getTituloNotificacion());
-        assertFalse(ultima.isEstado(), "El estado debe ser false tras crear la notificación");
+        assertFalse(ultima.isLeida(), "El estado debe ser false tras crear la notificación");
     }
 
     @Test
@@ -53,6 +54,6 @@ public class NotificacionServicioImplTest {
         notificacionServicio.marcarComoLeido(idNotificacionCreada);
 
         Notificacion notificacion = notificacionRepo.findById(idNotificacionCreada).orElseThrow();
-        assertTrue(notificacion.isEstado(), "La notificación debería estar marcada como leída (estado = true)");
+        assertTrue(notificacion.isLeida(), "La notificación debería estar marcada como leída.");
     }
 }

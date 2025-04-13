@@ -24,7 +24,7 @@ public class ComentarioServicioImpl implements ComentarioServicio {
     private final ComentarioMapper comentarioMapper;
 
     @Override
-    public void crearComentario(CrearComentarioDTO dto) throws Exception {
+    public void crearComentario(CrearComentarioDTO dto) {
         // 1. Crear y guardar el comentario en la colección de comentarios
         Comentario comentario = Comentario.builder()
                 .comentario(dto.mensaje())
@@ -37,7 +37,7 @@ public class ComentarioServicioImpl implements ComentarioServicio {
 
         // 2. Buscar el reporte correspondiente
         Reporte reporte = reporteRepo.findById(dto.idReporte())
-                .orElseThrow(() -> new Exception("Reporte no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Reporte no encontrado"));
 
         // 3. Crear una copia del comentario sin idReporte
         Comentario comentarioEmbebido = Comentario.builder()

@@ -284,5 +284,13 @@ public class UsuarioServicioImpl implements UsuarioServicio {
                 "rol",  usuario.getRol().name()
         );
     }
+
+    public String obtenerCorreoPorId(String idUsuario) {
+        Optional<Usuario> usuario = usuarioRepo.buscarUsuarioPorId(idUsuario);
+        if (usuario.isEmpty()) {
+            throw new RuntimeException("Usuario no encontrado con id: " + idUsuario);
+        }
+        return usuario.get().getEmail();
+    }
 }
 

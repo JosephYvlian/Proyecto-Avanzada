@@ -1,6 +1,5 @@
 package co.edu.uniquindio.ProyectoAvanzada.repositorios;
 
-import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Comentario;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Reporte;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;

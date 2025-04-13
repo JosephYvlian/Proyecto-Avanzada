@@ -30,8 +30,8 @@ public class NotificacionServicioImplTest {
     @Test
     public void testEnviarNotificacion() {
         EnviarNotificacionDTO dto = new EnviarNotificacionDTO(
-                "usuario123",          // ID de usuario simulado
-                "reporte456",          // ID de reporte simulado
+                "penegrande123",          // ID de usuario simulado
+                "reportedelapollagorda123",          // ID de reporte simulado
                 "Alerta Importante",   // Título de la notificación
                 "Un evento ha ocurrido cerca de ti." // Mensaje de la notificación
         );

@@ -8,7 +8,6 @@ import java.util.List;
 public interface NotificacionServicio {
 
     void enviarNotificacion(EnviarNotificacionDTO notificacionDTO);
-
     void marcarComoLeido(String idNotificacion);
     List<NotificacionDTO> listarNotificaciones(String idUsuario);
     List<NotificacionDTO> listarNotificacionesNoLeidas(String idUsuario);

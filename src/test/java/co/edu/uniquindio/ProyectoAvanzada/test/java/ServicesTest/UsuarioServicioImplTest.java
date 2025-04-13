@@ -37,7 +37,7 @@ class UsuarioServicioImplTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private static String idUsuario = "";
+    private static String idUsuario = "67fc17a7dbc7f76054be2fd8";
 
     /*@BeforeEach
     void limpiarAntes() {

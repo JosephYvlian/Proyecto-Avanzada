@@ -26,7 +26,7 @@ CategoriaServicioImplTest {
     @Autowired
     private CategoriaRepo categoriaRepo;
 
-    private static String idCategoriaCreada = "67fb1a59b0da6874ffe6556e";
+    private static String idCategoriaCreada = "67fc1a1eab3ab238d933b340";
 
     @Test
     public void testCrearCategoria() {

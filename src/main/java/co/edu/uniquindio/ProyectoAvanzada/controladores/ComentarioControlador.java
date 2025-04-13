@@ -24,13 +24,13 @@ public class ComentarioControlador {
 
     @GetMapping("/{idReporte}")
     public ResponseEntity<MensajeDTO<List<ComentarioDTO>>> listarComentarios(@PathVariable String idReporte) throws Exception {
-        List<ComentarioDTO> comentarios = comentarioServicio.listarComentariosDeReporte(idReporte);
+        List<ComentarioDTO> comentarios = comentarioServicio.listarComentariosPorReporte(idReporte);
         return ResponseEntity.ok(new MensajeDTO<>(false, comentarios));
     }
 
     @DeleteMapping("/{idReporte}/{idComentario}")
     public ResponseEntity<MensajeDTO<String>> eliminarComentario(@PathVariable String idReporte, @PathVariable String idComentario) {
-        comentarioServicio.eliminarComentario(idReporte, idComentario);
+        comentarioServicio.eliminarComentario(idComentario);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Comentario eliminado correctamente."));
     }
 }

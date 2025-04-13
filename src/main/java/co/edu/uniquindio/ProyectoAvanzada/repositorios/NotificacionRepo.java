@@ -22,7 +22,7 @@ public interface NotificacionRepo extends MongoRepository<Notificacion, String> 
     @Query("{ 'idUsuario': ?0, 'estado': false }")
     List<Notificacion> buscarNoLeidasPorUsuario(String idUsuario);
 
-    // Buscar notificaciones leídas de un usuario
-    @Query("{ 'idUsuario': ?0, 'estado': true }")
+    @Query("{ 'idUsuario': ?0, 'leida': true }")
     List<Notificacion> buscarLeidasPorUsuario(String idUsuario);
+
 }

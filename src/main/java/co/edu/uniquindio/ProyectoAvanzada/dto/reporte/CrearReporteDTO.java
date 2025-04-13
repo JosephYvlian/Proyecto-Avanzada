@@ -12,7 +12,6 @@ public record CrearReporteDTO(
         String descripcion,
         Ubicacion ubicacion,
         EstadoReporte estado,
-        List<String> imagenes,
-        Integer votosImportancia
+        List<String> imagenes
 ) {
 }

@@ -23,17 +23,18 @@ public class ComentarioServicioImplTest {
     @Autowired
     private ComentarioRepo comentarioRepo;
 
-    private static String idComentarioCreado = "67fb21e3a23c0544490d1732";
+    private static String idComentarioCreado = "67fc1e821543e15aa3044c6c";
 
-    private final String idReporte = "67fb1be53880426f7563db80";
-    private final String idUsuario = "67fb13ce89d0bc1871f9cede";
+    private final String idReporte = "67fc1c2c29e5624bdf6582d4";
+    private final String idUsuario = "67fc17a7dbc7f76054be2fd8";
 
     @Test
     public void testCrearComentario() {
         CrearComentarioDTO dto = new CrearComentarioDTO(
                 idReporte,
                 idUsuario, //
-                "Comentario Nuevo"
+                "Comentario Nuevo",
+                LocalDateTime.now()
         );
 
         idComentarioCreado = comentarioServicio.crearComentario(dto);

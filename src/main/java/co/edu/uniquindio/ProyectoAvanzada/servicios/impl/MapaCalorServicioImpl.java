@@ -45,6 +45,7 @@ public class MapaCalorServicioImpl implements MapaCalorServicio {
         }
 
         return puntosCalor;
+
     }
 
 }

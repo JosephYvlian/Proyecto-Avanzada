@@ -45,7 +45,8 @@ public class SecurityConfig {
                                         "/api/usuarios",
                                         "/api/categorias",
                                         "/api/reportes",
-                                        "/api/comentarios/**").permitAll()
+                                        "/api/comentarios/**",
+                                        "api/mapaCalor").permitAll()
 
                         .requestMatchers("/api/usuarios/**").authenticated()
                         .requestMatchers("/api/categorias/**").hasRole("ADMINISTRADOR")

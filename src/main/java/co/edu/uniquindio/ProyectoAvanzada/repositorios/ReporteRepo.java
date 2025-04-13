@@ -20,8 +20,6 @@ public interface ReporteRepo extends MongoRepository<Reporte, String> {
     @Query("{ 'categoria': ?0 }")
     List<Reporte> buscarPorCategoria(String idCategoria);
 
-    @Query("{ 'idReporte':  ?0}")
-    List<Comentario> buscarComentariosPorReporte(String idReporte);
 
     // Buscar reportes por ciudad
     @Query("{ 'ciudad.nombre': ?0 }")

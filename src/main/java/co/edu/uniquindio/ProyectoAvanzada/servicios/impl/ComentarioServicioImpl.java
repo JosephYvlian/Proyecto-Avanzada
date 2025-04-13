@@ -9,7 +9,6 @@ import co.edu.uniquindio.ProyectoAvanzada.repositorios.ComentarioRepo;
 import co.edu.uniquindio.ProyectoAvanzada.repositorios.ReporteRepo;
 import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.ComentarioServicio;
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -60,8 +59,6 @@ public class ComentarioServicioImpl implements ComentarioServicio {
 
     @Override
     public List<ComentarioDTO> listarComentariosDeReporte(String idReporte) throws Exception {
-        Reporte reporte = reporteRepo.findById(idReporte)
-                .orElseThrow(() -> new Exception("El reporte no existe"));
 
         List<Comentario> comentarios = comentarioRepo.buscarPorReporte(idReporte);
         List<ComentarioDTO> comentarioDTOs = new ArrayList<>();

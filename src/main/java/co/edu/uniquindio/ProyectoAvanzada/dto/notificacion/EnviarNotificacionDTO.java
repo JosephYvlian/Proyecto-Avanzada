@@ -1,12 +1,11 @@
 package co.edu.uniquindio.ProyectoAvanzada.dto.notificacion;
 
-import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Reporte;
-
-import java.util.List;
+import jakarta.validation.constraints.NotBlank;
 
 public record EnviarNotificacionDTO(
-        String mensaje,
-        Reporte reporte,
-        List<String> imagen
+        @NotBlank(message = "El idUsuario no puede estar vacio") String idUsuario,
+        @NotBlank(message = "El idReporte no puede estar vacio") String idReporte,
+        @NotBlank(message = "El tituto no puede estar vacio") String titulo,
+        @NotBlank(message = "El mensaje no puede estar vacio") String mensaje
 ) {
 }

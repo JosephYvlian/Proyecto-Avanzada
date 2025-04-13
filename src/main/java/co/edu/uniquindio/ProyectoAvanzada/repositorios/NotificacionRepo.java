@@ -10,15 +10,19 @@ import java.util.List;
 @Repository
 public interface NotificacionRepo extends MongoRepository<Notificacion, String> {
 
-    // Buscar notificaciones por usuario
-    @Query("{ 'idUsuario' : ?0 }")
-    List<Notificacion> buscarNotificacionesPorUsuario(String idUsuario);
+    // Buscar notificaciones de un usuario
+    @Query("{ 'idUsuario': ?0 }")
+    List<Notificacion> buscarPorUsuario(String idUsuario);
 
-    // Buscar notificaciones no leídas
-    @Query("{ 'leida' : false }")
-    List<Notificacion> buscarNotificacionesNoLeidas();
+    // Buscar notificaciones de un reporte
+    @Query("{ 'idReporte': ?0 }")
+    List<Notificacion> buscarPorReporte(String idReporte);
 
-    // Buscar notificaciones por tipo
-    @Query("{ 'tipo' : ?0 }")
-    List<Notificacion> buscarNotificacionesPorTipo(String tipo);
+    // Buscar notificaciones no leídas de un usuario
+    @Query("{ 'idUsuario': ?0, 'estado': false }")
+    List<Notificacion> buscarNoLeidasPorUsuario(String idUsuario);
+
+    // Buscar notificaciones leídas de un usuario
+    @Query("{ 'idUsuario': ?0, 'estado': true }")
+    List<Notificacion> buscarLeidasPorUsuario(String idUsuario);
 }

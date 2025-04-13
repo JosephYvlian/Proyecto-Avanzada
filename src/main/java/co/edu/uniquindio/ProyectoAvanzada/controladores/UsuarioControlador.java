@@ -1,11 +1,11 @@
 package co.edu.uniquindio.ProyectoAvanzada.controladores;
 
-import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.CrearUsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.EditarUsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.MensajeDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.UsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.UsuarioServicio;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,27 +20,22 @@ import java.util.List;
 public class UsuarioControlador {
     private final UsuarioServicio usuarioServicio;
 
-    @PostMapping
-    public ResponseEntity<MensajeDTO<String>> crear(@Valid @RequestBody CrearUsuarioDTO cuenta) throws Exception {
-        usuarioServicio.crear(cuenta);
-        return ResponseEntity.ok(new MensajeDTO<>(false, "Su registro ha sido exitoso"));
-    }
-
-    @PutMapping("/{id]")
-    public ResponseEntity<MensajeDTO<String>> editar(@Valid @RequestBody EditarUsuarioDTO cuenta) throws Exception {
-        usuarioServicio.editar(cuenta);
+    @PutMapping("/{idUsuario}")
+    public ResponseEntity<MensajeDTO<String>> editar(@Valid @RequestBody EditarUsuarioDTO cuenta,
+                                                     @Valid @NotBlank(message = "El idUsuario no puede estar vacio") @PathVariable String idUsuario) throws Exception {
+        usuarioServicio.editar(cuenta, idUsuario);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Cuenta editada exitosamente"));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<MensajeDTO<String>> eliminar(@PathVariable String id) throws Exception{
-        usuarioServicio.eliminar(id);
+    @DeleteMapping("/{idUsuario}")
+    public ResponseEntity<MensajeDTO<String>> eliminar(@Valid @NotBlank(message = "El idUsuario no puede estar vacio") @PathVariable String idUsuario) throws Exception{
+        usuarioServicio.eliminar(idUsuario);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Cuenta eliminada exitosamente"));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<MensajeDTO<UsuarioDTO>> obtener(@PathVariable String id) throws Exception{
-        UsuarioDTO info = usuarioServicio.obtener(id);
+    @GetMapping("/{idUsuario}")
+    public ResponseEntity<MensajeDTO<UsuarioDTO>> obtener(@Valid @NotBlank(message = "El idUsuario no puede estar vacio") @PathVariable String idUsuario) throws Exception{
+        UsuarioDTO info = usuarioServicio.obtener(idUsuario);
         return ResponseEntity.ok(new MensajeDTO<>(false, info));
     }
 

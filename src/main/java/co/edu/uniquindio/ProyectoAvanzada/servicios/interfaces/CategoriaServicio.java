@@ -12,12 +12,11 @@ import java.util.List;
 
 public interface CategoriaServicio {
 
-    List<CategoriaDTO> listarCategorias();
-
     void crearCategoria(CrearCategoriaDTO categoriaDTO);
 
     void editarCategoria(EditarCategoriaDTO editCategoriaDTO, String idCategoria);
 
     void eliminarCategoria(String idCategoria);
 
+    List<CategoriaDTO> listarCategorias();
 }

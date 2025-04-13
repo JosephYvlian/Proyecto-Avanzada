@@ -11,13 +11,15 @@ import java.util.Optional;
 @Repository
 public interface ComentarioRepo extends MongoRepository<Comentario, String> {
 
+    @Query("{ 'idComentario':  ?0}")
+    List<Comentario> buscarComentarioPorId(String idComentario);
+
+    // Buscar comentarios hechos por un usuario
+    @Query("{ 'idUsuario': ?0 }")
+    List<Comentario> buscarPorUsuario(String idUsuario);
     // Buscar comentarios por usuario
     @Query("{ 'idUsuario' : ?0 }")
     List<Comentario> buscarComentariosPorUsuario(String idUsuario);
-
-    // Buscar un comentario por ID
-    @Query("{ '_id' : ?0 }")
-    Optional<Comentario> buscarComentarioPorId(String idComentario);
 
     // Buscar comentarios de un reporte específico
     @Query("{ 'idReporte' : ?0 }")
@@ -26,4 +28,6 @@ public interface ComentarioRepo extends MongoRepository<Comentario, String> {
     // Buscar comentarios con más de X likes
     @Query("{ 'likes' : { $gt: ?0 } }")
     List<Comentario> buscarComentariosConMasDeXLikes(int cantidad);
+
+
 }

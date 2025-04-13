@@ -34,14 +34,27 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.0")
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+    implementation("org.mapstruct:mapstruct:1.6.3")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation ("org.simplejavamail:simple-java-mail:8.11.2")
+    implementation ("org.simplejavamail:batch-module:8.10.1")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("io.jsonwebtoken:jjwt-api:0.12.6")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
+    annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+    testImplementation("org.mockito:mockito-core:5.12.0")
+    testImplementation("org.mockito:mockito-junit-jupiter:5.12.0")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    implementation ("com.cloudinary:cloudinary-http44:1.34.0")
+
 }
 
 
 tasks.withType<Test> {
     useJUnitPlatform()
 }
-

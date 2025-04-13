@@ -1,13 +1,13 @@
 package co.edu.uniquindio.ProyectoAvanzada.modelo.documentos;
 
+import co.edu.uniquindio.ProyectoAvanzada.modelo.enums.Ciudad;
+import co.edu.uniquindio.ProyectoAvanzada.modelo.enums.EstadoReporte;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.vo.Ubicacion;
-import co.edu.uniquindio.ProyectoAvanzada.modelo.vo.Ciudad;
 import lombok.*;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Document("reportes")
@@ -18,16 +18,18 @@ import java.util.List;
 @Getter
 @ToString
 public class Reporte {
-
     @Id
     private String idReporte;
 
     private String titulo;
-    private ObjectId categoria;
+    private Categoria categoria;
     private Ciudad ciudad;
     private String descripcion;
     private Ubicacion ubicacion;
-    private Date fecha;
+    private LocalDateTime fecha;
     private List<String> imagenes;
+    private List<Comentario> comentarios;
+    private EstadoReporte estado;
+    private Integer votosImportancia = 0;
 
 }

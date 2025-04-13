@@ -1,4 +1,14 @@
 package co.edu.uniquindio.ProyectoAvanzada.dto.notificacion;
 
-public record NotificacionDTO() {
+import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Reporte;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+public record NotificacionDTO(
+        String titulo,
+        String mensaje,
+        boolean leida,
+        LocalDateTime fecha
+) {
 }

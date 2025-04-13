@@ -6,5 +6,4 @@ public interface EmailServicio {
 
     void enviarCorreo(EmailDTO emailDTO) throws Exception;
 
-
 }

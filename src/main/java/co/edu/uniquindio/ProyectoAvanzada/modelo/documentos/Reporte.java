@@ -19,7 +19,7 @@ import java.util.List;
 @ToString
 public class Reporte {
     @Id
-    private String codigoReporte;
+    private String idReporte;
 
     private String titulo;
     private Categoria categoria;

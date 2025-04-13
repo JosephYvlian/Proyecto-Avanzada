@@ -21,10 +21,6 @@ public interface ComentarioRepo extends MongoRepository<Comentario, String> {
     @Query("{ 'idUsuario' : ?0 }")
     List<Comentario> buscarComentariosPorUsuario(String idUsuario);
 
-    // Buscar un comentario por ID
-    @Query("{ '_id' : ?0 }")
-    Optional<Comentario> buscarComentarioPorId(String idComentario);
-
     // Buscar comentarios de un reporte específico
     @Query("{ 'idReporte' : ?0 }")
     List<Comentario> buscarComentariosPorReporte(String idReporte);

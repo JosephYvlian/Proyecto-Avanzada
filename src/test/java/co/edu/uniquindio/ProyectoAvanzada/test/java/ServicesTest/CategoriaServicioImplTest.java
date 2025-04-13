@@ -16,7 +16,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class CategoriaServiceImplTest {
+public class
+
+CategoriaServicioImplTest {
 
     @Autowired
     private CategoriaServicio categoriaServicio;
@@ -24,7 +26,7 @@ public class CategoriaServiceImplTest {
     @Autowired
     private CategoriaRepo categoriaRepo;
 
-    private static String idCategoriaCreada = "67f8825d30a95f0740a56395";
+    private static String idCategoriaCreada = "67fb1a59b0da6874ffe6556e";
 
     @Test
     public void testCrearCategoria() {

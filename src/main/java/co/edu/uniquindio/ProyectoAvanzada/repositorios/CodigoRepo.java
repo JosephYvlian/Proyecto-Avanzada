@@ -14,5 +14,4 @@ public interface CodigoRepo extends MongoRepository<CodigoValidacion, String> {
     @Query("{ 'email' : ?0 }")
     Optional<CodigoValidacion> buscarPorEmail(String email);
 
-
 }

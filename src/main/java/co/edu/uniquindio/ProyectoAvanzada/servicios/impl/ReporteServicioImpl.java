@@ -30,7 +30,7 @@ public class ReporteServicioImpl implements ReporteServicio {
 
     @Override
     public ReporteDTO obtenerReporte(String idReporte) {
-        Reporte reporte = reporteRepo.buscarReportePorCodigo(idReporte).orElse(null);
+        Reporte reporte = reporteRepo.findById(idReporte).orElse(null);
 
         if (reporte == null) {
             throw new RuntimeException("No existe un reporte con el id: " + idReporte);
@@ -56,7 +56,7 @@ public class ReporteServicioImpl implements ReporteServicio {
 
     @Override
     public void eliminarReporte(String idReporte) {
-        Reporte reporte = reporteRepo.buscarReportePorCodigo(idReporte).orElse(null);
+        Reporte reporte = reporteRepo.findById(idReporte).orElse(null);
 
         if (reporte == null) {
             throw new RuntimeException("No existe un reporte con el id: " + idReporte);
@@ -68,12 +68,8 @@ public class ReporteServicioImpl implements ReporteServicio {
 
     @Override
     public void editarReporte(String idReporte, EditarReporteDTO dto) {
-        Reporte reporte = reporteRepo.buscarReportePorCodigo(idReporte).orElse(null);
-
-        if (reporte == null || !siExisteReporte(idReporte)) {
-            throw new RuntimeException("No existe un reporte con este id.");
-        }
-
+        Reporte reporte = reporteRepo.findById(idReporte)
+                .orElseThrow(() -> new RuntimeException("No existe un reporte con este id."));
 
         reporteMapper.actualizarReporteDesdeDTO(reporte, dto);
         reporteRepo.save(reporte);
@@ -81,17 +77,10 @@ public class ReporteServicioImpl implements ReporteServicio {
 
     @Override
     public void marcarReporte(String idReporte) {
-        Reporte reporte = reporteRepo.buscarReportePorCodigo(idReporte).orElse(null);
-        if (reporte == null) {
-            throw new RuntimeException("No existe un reporte con el id: " + idReporte);
-
-        }
+        Reporte reporte = reporteRepo.findById(idReporte)
+                .orElseThrow(() -> new RuntimeException("No existe un reporte con el id: " + idReporte));
 
         reporte.setVotosImportancia(reporte.getVotosImportancia() + 1);
         reporteRepo.save(reporte);
-    }
-
-    private boolean siExisteReporte(String idReporte) {
-        return reporteRepo.buscarReportePorCodigo(idReporte).isPresent();
     }
 }

@@ -9,6 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface NotificacionMapper {
 
+    @Mapping(source = "titulo", target = "tituloNotificacion")
     @Mapping(target = "fecha", expression = "java(java.time.LocalDateTime.now())")
     Notificacion toDocument(EnviarNotificacionDTO dto);
 

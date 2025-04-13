@@ -60,7 +60,7 @@ public class ComentarioServicioImpl implements ComentarioServicio {
     @Override
     public List<ComentarioDTO> listarComentariosDeReporte(String idReporte) throws Exception {
 
-        List<Comentario> comentarios = comentarioRepo.buscarPorReporte(idReporte);
+        List<Comentario> comentarios = comentarioRepo.buscarComentariosPorReporte(idReporte);
         List<ComentarioDTO> comentarioDTOs = new ArrayList<>();
 
         for (Comentario comentario : comentarios) {

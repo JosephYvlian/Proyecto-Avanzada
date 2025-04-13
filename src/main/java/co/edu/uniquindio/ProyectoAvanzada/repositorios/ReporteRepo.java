@@ -24,11 +24,14 @@ public interface ReporteRepo extends MongoRepository<Reporte, String> {
     @Query("{ 'ciudad.nombre': ?0 }")
     List<Reporte> buscarPorCiudad(String nombreCiudad);
 
-    // Buscar reportes registrados entre dos fechas
-    @Query("{ 'fecha': { $gte: ?0, $lte: ?1 } }")
-    List<Reporte> buscarEntreFechas(Date fechaInicio, Date fechaFin);
+    // Buscar reportes por usuario
+    @Query("{ 'idUsuario' : ?0 }")
+    List<Reporte> buscarReportesPorUsuario(String idUsuario);
 
-    // Buscar reportes por coordenadas exactas (latitud y longitud)
-    @Query("{ 'ubicacion.latitud': ?0, 'ubicacion.longitud': ?1 }")
-    List<Reporte> buscarPorUbicacionExacta(Double lat, Double lng);
+    // Buscar reportes por estado
+    @Query("{ 'estado' : ?0 }")
+    List<Reporte> buscarReportesPorEstado(String estado);
+
+    @Query("{'estado' :  'ACTIVO' }")
+    List<Reporte> listarReportesActivos();
 }

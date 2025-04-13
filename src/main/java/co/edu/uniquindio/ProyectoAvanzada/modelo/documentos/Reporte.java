@@ -18,9 +18,8 @@ import java.util.List;
 @Getter
 @ToString
 public class Reporte {
-
     @Id
-    private String idReporte;
+    private String codigoReporte;
 
     private String titulo;
     private Categoria categoria;

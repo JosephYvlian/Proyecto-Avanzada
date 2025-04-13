@@ -6,6 +6,8 @@ import co.edu.uniquindio.ProyectoAvanzada.dto.categoria.CrearCategoriaDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.categoria.EditarCategoriaDTO;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Categoria;
 import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.CategoriaServicio;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,19 +29,19 @@ public class CategoriaControlador {
     }
 
     @PostMapping
-    public ResponseEntity<MensajeDTO<String>> crearCategoria(@RequestBody CrearCategoriaDTO categoriaDTO){
+    public ResponseEntity<MensajeDTO<String>> crearCategoria(@Valid @RequestBody CrearCategoriaDTO categoriaDTO){
         categoriaServicio.crearCategoria(categoriaDTO);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Categoria creada correctamente"));
     }
 
     @PutMapping("/{idCategoria}")
-    public ResponseEntity<MensajeDTO<String>> editarCategoria(@RequestBody EditarCategoriaDTO editCategoriaDTO, @PathVariable String idCategoria){
+    public ResponseEntity<MensajeDTO<String>> editarCategoria(@Valid @RequestBody EditarCategoriaDTO editCategoriaDTO, @Valid @PathVariable @NotBlank String idCategoria){
         categoriaServicio.editarCategoria(editCategoriaDTO, idCategoria);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Categoria editada correctamente"));
     }
 
     @DeleteMapping("/{idCategoria}")
-    public ResponseEntity<MensajeDTO<String>> eliminarCategoria(@PathVariable String idCategoria){
+    public ResponseEntity<MensajeDTO<String>> eliminarCategoria(@Valid @PathVariable @NotBlank String idCategoria){
         categoriaServicio.eliminarCategoria(idCategoria);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Categoria eliminada correctamente"));
     }

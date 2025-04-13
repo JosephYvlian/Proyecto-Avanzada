@@ -23,11 +23,10 @@ public class ComentarioServicioImplTest {
     @Autowired
     private ComentarioRepo comentarioRepo;
 
-    private static String idComentarioCreado = "67fab14f823899624dab0824";
+    private static String idComentarioCreado = "67fb21e3a23c0544490d1732";
 
-    // Puedes ajustar esto al ID de un reporte real de tu base de datos de pruebas
-    private final String idReporte = "67f9f81d8158242db1ee7d02";
-    private final String idUsuario = "67faad20fc3a656dcc8f2ead";
+    private final String idReporte = "67fb1be53880426f7563db80";
+    private final String idUsuario = "67fb13ce89d0bc1871f9cede";
 
     @Test
     public void testCrearComentario() {

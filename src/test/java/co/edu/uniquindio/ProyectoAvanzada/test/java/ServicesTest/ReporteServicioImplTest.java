@@ -30,9 +30,9 @@ public class ReporteServicioImplTest {
     @Autowired
     private CategoriaRepo categoriaRepo;
 
-    private static String reporteExistenteID = "67f9f81d8158242db1ee7d02";
+    private static String reporteExistenteID = "67fb1be53880426f7563db80";
 
-    private static final String idCategoriaPrueba = "67f9f623e2151f60f7ac6a9b"; //ID válido de Mongo
+    private static final String idCategoriaPrueba = "67fb1aeac7c2fc0403c1369e"; //ID válido de Mongo
 
     private static Categoria categoriaDePrueba;
 

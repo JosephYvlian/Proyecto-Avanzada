@@ -22,9 +22,9 @@ public class NotificacionServicioImplTest {
     @Autowired
     private NotificacionRepo notificacionRepo;
 
-    private static String idNotificacionCreada = "67faac8fccffd05661742477";
+    private static String idNotificacionCreada = "67fb1dd6d873005c34e9c502";
 
-    private static String idUsuario = "67faad20fc3a656dcc8f2ead";
+    private static String idUsuario = "67fb13ce89d0bc1871f9cede";
 
     @Test
     public void testEnviarNotificacion() {

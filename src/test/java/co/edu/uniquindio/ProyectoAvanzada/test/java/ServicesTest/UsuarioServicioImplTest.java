@@ -37,14 +37,13 @@ class UsuarioServicioImplTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private static String idUsuario = "67fa96e2c36b6e76cd20cafc";
+    private static String idUsuario = "";
 
-    @BeforeEach
+    /*@BeforeEach
     void limpiarAntes() {
         usuarioRepo.deleteAll();
         codigoRepo.deleteAll();
-    }
-
+    }*/
 
     @Test
     void testCrearUsuarioCliente() {
@@ -64,7 +63,7 @@ class UsuarioServicioImplTest {
 
     @Test
     void testCrearUsuarioAdministrador() {
-        RegistroDTO dto = new RegistroDTO(Rol.ADMINISTRADOR, "Luisa", "3124568978", "Bogotá", "Carrera 8", "admin.nex@gmail.com", "pass123", EstadoCuenta.INACTIVO, LocalDateTime.now());
+        RegistroDTO dto = new RegistroDTO(Rol.ADMINISTRADOR, "Luisa", "3124568978", "Bogotá", "Carrera 8", "admin.nex@gmail.com", "pass123", EstadoCuenta.ACTIVO, LocalDateTime.now());
 
         usuarioServicio.crear(dto);
 

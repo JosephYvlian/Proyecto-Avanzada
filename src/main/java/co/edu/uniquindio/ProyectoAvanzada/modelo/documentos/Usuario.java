@@ -36,5 +36,4 @@ public class Usuario {
     private LocalDateTime fechaRegistro;
     private CodigoValidacion codigoValidacion;
 
-
 }

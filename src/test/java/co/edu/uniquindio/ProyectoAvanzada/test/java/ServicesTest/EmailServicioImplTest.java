@@ -33,7 +33,7 @@ public class EmailServicioImplTest {
                         "Together, we build a safer, more connected neighborhood.\n" +
                         "\n" +
                         "Let’s make a difference — one report at a time.",
-                "teo154@outlook.com"
+                "josephstoff2@gmail.com"
         );
 
         assertDoesNotThrow(() -> emailServicio.enviarCorreo(emailDTO));

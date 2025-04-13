@@ -1,42 +1,34 @@
 package co.edu.uniquindio.ProyectoAvanzada.test.java.ServicesTest;
+
 import co.edu.uniquindio.ProyectoAvanzada.servicios.impl.ImagenServicioImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
-
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ImagenServicioImplTest {
 
-    private final ImagenServicioImpl imagenServicio = new ImagenServicioImpl();
-
     @Test
-    void testSubirImagenDesdePC() throws Exception {
-        // Ruta local absoluta de la imagen en tu PC
-        File file = new File("C:\\Users\\josep\\Documents\\GitHub\\Proyecto-Avanzada\\src\\main\\resources\\logo.png");
-        FileInputStream fis = new FileInputStream(file);
+    public void testSubirImagen() throws Exception {
+        ImagenServicioImpl servicio = new ImagenServicioImpl();
 
-        // Crear el MultipartFile simulado
-        MockMultipartFile mockFile = new MockMultipartFile(
-                "file",
-                file.getName(),
-                "image/png",  // Asegúrate del MIME correcto si es JPG: "image/jpeg"
-                fis
+        // Cargar un archivo de prueba desde los recursos
+        InputStream imagenStream = getClass().getResourceAsStream("/logo.png");
+        assertNotNull(imagenStream, "No se encontró el archivo de prueba");
+
+        MockMultipartFile imagen = new MockMultipartFile(
+                "archivo",
+                "test-image.jpg",
+                "image/jpeg",
+                imagenStream
         );
 
-        // Subir imagen a Cloudinary
-        Map resultado = imagenServicio.subirImagen(mockFile);
+        Map resultado = servicio.subirImagen(imagen);
 
-        // Verificar resultado
         assertNotNull(resultado);
-        assertTrue(resultado.containsKey("url"));
-        System.out.println("📷 Imagen subida correctamente: " + resultado.get("url"));
+        assertTrue(resultado.containsKey("url"), "La respuesta debe contener una URL de la imagen subida");
 
-        // Opcional: eliminar la imagen después del test
-        // String publicId = (String) resultado.get("public_id");
-        // imagenServicio.eliminarImagen(publicId);
+        System.out.println("Imagen subida con éxito: " + resultado.get("url"));
     }
 }

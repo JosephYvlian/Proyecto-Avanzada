@@ -18,7 +18,7 @@ public class ImagenServicioImpl implements ImagenServicio {
 
     public ImagenServicioImpl(){
         Map<String, String> config = new HashMap<>();
-        config.put("cloud_name", "dvpt0r0wz ");
+        config.put("cloud_name", "dvpt0r0wz");
         config.put("api_key", "787739389611175");
         config.put("api_secret", "QafxqcEP6Eec80bVXSD9N4Ig1bQ");
 

@@ -3,6 +3,7 @@ package co.edu.uniquindio.ProyectoAvanzada.servicios.impl;
 
 import co.edu.uniquindio.ProyectoAvanzada.dto.TokenDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.*;
+import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.CrearUsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.EditarUsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.UsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.mapper.UsuarioMapper;
@@ -16,6 +17,8 @@ import co.edu.uniquindio.ProyectoAvanzada.seguridad.JWTUtils;
 import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.EmailServicio;
 import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.UsuarioServicio;
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,23 +42,21 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     private final JWTUtils jwtUtils;
 
     @Override
-    public void crear(RegistroDTO cuenta) {
-        if (siExisteEmail(cuenta.email())) {
+    public void crear(CrearUsuarioDTO dto) {
+        if (siExisteEmail(dto.email())) {
             throw new RuntimeException("El correo ya está en uso");
         }
 
 
-        Usuario usuario = usuarioMapper.toDocument(cuenta);
-        usuario.setEstadoCuenta(EstadoCuenta.INACTIVO);
-        usuario.setRol(Rol.CLIENTE);
-        usuario.setFechaRegistro(LocalDateTime.now());
+        Usuario usuario = usuarioMapper.toDocument(dto);
+        usuario.setPassword(passwordEncoder.encode(dto.password()));
 
-        if(cuenta.email().contains(".nex@gmail.com")){
+        if (dto.email().contains(".nex@gmail.com")) {
             usuario.setEstadoCuenta(EstadoCuenta.ACTIVO);
             usuario.setRol(Rol.ADMINISTRADOR);
             usuario.setFechaRegistro(LocalDateTime.now());
 
-            usuario.setPassword(passwordEncoder.encode(cuenta.password()));
+            usuario.setPassword(passwordEncoder.encode(dto.password()));
             usuarioRepo.save(usuario);
             return;
         }
@@ -67,24 +68,24 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         // Guardar código en colección aparte
         CodigoValidacion codigoValidacion = new CodigoValidacion();
         codigoValidacion.setCodigo(codigo);
-        codigoValidacion.setEmail(cuenta.email());
+        codigoValidacion.setEmail(dto.email());
         codigoValidacion.setFecha(expiracion);
 
         codigoRepo.save(codigoValidacion);
 
 
         /// Guardar usuario
-        usuario.setPassword(passwordEncoder.encode(cuenta.password()));
+        usuario.setPassword(passwordEncoder.encode(dto.password()));
         usuarioRepo.save(usuario);
 
 
         // Crear el mensaje del correo
         String asunto = "Verification Code NEX Platform";
-        String cuerpo = "Hola " + cuenta.nombre() + ",\n\nTu código de verificación es: " + codigo +
+        String cuerpo = "Hola " + dto.nombre() + ",\n\nTu código de verificación es: " + codigo +
                 "\nEste código expirará en 15 minutos.\n\nGracias por registrarte.";
 
         // Crear DTO y enviar correo
-        EmailDTO emailDTO = new EmailDTO(asunto, cuerpo, cuenta.email());
+        EmailDTO emailDTO = new EmailDTO(asunto, cuerpo, dto.email());
 
         try {
             emailServicio.enviarCorreo(emailDTO);
@@ -94,21 +95,24 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     }
 
     @Override
-    public void editar(EditarUsuarioDTO cuenta, String idUsuario){
-        Usuario usuario = usuarioRepo.buscarUsuarioPorId(idUsuario).orElse(null);
+    public void editar(EditarUsuarioDTO dto, String idUsuario) {
+        ObjectId objectId = new ObjectId(idUsuario);
+        String id = jwtUtils.getUsuarioIdFromToken("token");
+        Usuario usuario = usuarioRepo.buscarUsuarioPorId(id).orElse(null);
 
-        if (usuario == null || !siExisteId(idUsuario)) {
-            throw new RuntimeException("El usuario no existe. ");
+        if (usuario == null) {
+            throw new RuntimeException("El usuario no existe");
         }
 
-        usuarioMapper.actualizarUsuarioDesdeDTO(usuario, cuenta);
+        usuarioMapper.editarUsuarioDTO(dto, usuario);
         usuarioRepo.save(usuario);
     }
 
     @Override
     public void eliminar(String idUsuario) {
-        Usuario usuario = usuarioRepo.buscarUsuarioPorId(idUsuario).orElse(null);
+        String id = jwtUtils.getUsuarioIdFromToken("token");
 
+        Usuario usuario = usuarioRepo.buscarUsuarioPorId(id).orElse(null);
         if (usuario == null) {
             throw new RuntimeException("El usuario no existe");
         }
@@ -131,17 +135,15 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     @Override
     public List<UsuarioDTO> listarTodos() {
         List<Usuario> usuarios = usuarioRepo.findAll();
-        List<UsuarioDTO> listaDTO = new ArrayList<>();
+        List<UsuarioDTO> lista = new ArrayList<>();
 
         for (Usuario usuario : usuarios) {
-            if (usuario.getEstadoCuenta() == EstadoCuenta.ACTIVO) {
-                UsuarioDTO dto = usuarioMapper.toDTO(usuario);
-                listaDTO.add(dto);
-            }
-
+            UsuarioDTO dto = usuarioMapper.toDTO(usuario);
+            lista.add(dto);
         }
 
-        return listaDTO;
+        return lista;
+
     }
 
     @Override
@@ -164,29 +166,6 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         usuario.setEstadoCuenta(EstadoCuenta.ACTIVO);
         usuarioRepo.save(usuario);
         codigoRepo.delete(codigoValidacion);
-    }
-
-    @Override
-    public TokenDTO login(LoginDTO loginDTO) throws Exception {
-        Optional<Usuario> optionalUsuario = usuarioRepo.buscarUsuarioPorEmail(loginDTO.email());
-
-        if (optionalUsuario.isEmpty()) {
-            throw new Exception("El usuario no existe");
-        }
-
-        Usuario usuario = optionalUsuario.get();
-
-        if (usuario.getEstadoCuenta() != EstadoCuenta.ACTIVO) {
-            throw new Exception("La cuenta aún no ha sido verificada");
-        }
-
-
-        if (!passwordEncoder.matches(loginDTO.password(), usuario.getPassword())) {
-            throw new Exception("Contraseña incorrecta");
-        }
-
-        String token = jwtUtils.generateToken(usuario.getIdUsuario(), crearClaims(usuario));
-        return new TokenDTO(token);
     }
 
     @Override
@@ -273,17 +252,10 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     }
 
     private String generarCodigo() {
-        int codigo = (int)(Math.random() * 1_000_000); // Valor entre 0 y 999999
+        int codigo = (int) (Math.random() * 1_000_000); // Valor entre 0 y 999999
         return String.format("%06d", codigo); // Rellena con ceros a la izquierda si es necesario
     }
 
-    private Map<String, String> crearClaims(Usuario usuario) {
-        return Map.of(
-                "email", usuario.getEmail(),
-                "nombre", usuario.getNombre(),
-                "rol",  usuario.getRol().name()
-        );
-    }
 
     public String obtenerCorreoPorId(String idUsuario) {
         Optional<Usuario> usuario = usuarioRepo.buscarUsuarioPorId(idUsuario);

@@ -22,6 +22,12 @@ public class CategoriaControlador {
 
     private final CategoriaServicio categoriaServicio;
 
+    @GetMapping("/{idCategoria}")
+    public ResponseEntity<MensajeDTO<CategoriaDTO>> obtenerCategoria(@Valid @PathVariable @NotBlank String idCategoria){
+        CategoriaDTO categoria = categoriaServicio.obtenerCategoria(idCategoria);
+        return ResponseEntity.ok(new MensajeDTO<>(false, categoria));
+    }
+
     @GetMapping
     public ResponseEntity<MensajeDTO<List<CategoriaDTO>>> listarCategorias(){
         List<CategoriaDTO> lista = categoriaServicio.listarCategorias();

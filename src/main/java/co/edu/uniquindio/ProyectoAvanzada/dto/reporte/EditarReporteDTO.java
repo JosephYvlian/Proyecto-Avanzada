@@ -9,7 +9,7 @@ import java.util.List;
 
 public record EditarReporteDTO(
         @NotBlank(message = "El titulo no puede estar vacio") String titulo,
-        @NotBlank(message = "La categoria no puede estar vacia") Categoria categoria,
+        @NotBlank(message = "La categoria no puede estar vacia") String categoria,
         @NotBlank(message = "La descripcion no puede estar vacia") String descripcion,
         @NotBlank(message = "La ubicacion no puede estar vacia") Ubicacion ubicacion,
         EstadoReporte estado,

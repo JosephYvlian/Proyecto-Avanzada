@@ -2,6 +2,7 @@ package co.edu.uniquindio.ProyectoAvanzada.test.java.ServicesTest;
 
 import co.edu.uniquindio.ProyectoAvanzada.dto.TokenDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.*;
+import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.CrearUsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.EditarUsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.UsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Usuario;
@@ -47,7 +48,7 @@ class UsuarioServicioImplTest {
 
     @Test
     void testCrearUsuarioCliente() {
-        RegistroDTO dto = new RegistroDTO(Rol.CLIENTE, "Joseph Garcia", "3116796649", "Armenia", "Calle 10", "josephstoff2@gmail.com", "pass123", EstadoCuenta.INACTIVO, LocalDateTime.now());
+        CrearUsuarioDTO dto = new CrearUsuarioDTO(Rol.CLIENTE, "Joseph Garcia", "3116796649", "Armenia", "Calle 10", "josephstoff2@gmail.com", "pass123", EstadoCuenta.INACTIVO, LocalDateTime.now());
 
         usuarioServicio.crear(dto);
 
@@ -63,7 +64,7 @@ class UsuarioServicioImplTest {
 
     @Test
     void testCrearUsuarioAdministrador() {
-        RegistroDTO dto = new RegistroDTO(Rol.ADMINISTRADOR, "Luisa", "3124568978", "Bogotá", "Carrera 8", "admin.nex@gmail.com", "pass123", EstadoCuenta.ACTIVO, LocalDateTime.now());
+        CrearUsuarioDTO dto = new CrearUsuarioDTO(Rol.ADMINISTRADOR, "Luisa", "3124568978", "Bogotá", "Carrera 8", "admin.nex@gmail.com", "pass123", EstadoCuenta.ACTIVO, LocalDateTime.now());
 
         usuarioServicio.crear(dto);
 

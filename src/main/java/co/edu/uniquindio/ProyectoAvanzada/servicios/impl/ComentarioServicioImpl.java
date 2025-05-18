@@ -1,103 +1,98 @@
 package co.edu.uniquindio.ProyectoAvanzada.servicios.impl;
 
+import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.EmailDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.comentario.ComentarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.comentario.CrearComentarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.mapper.ComentarioMapper;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Comentario;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Reporte;
+import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Usuario;
 import co.edu.uniquindio.ProyectoAvanzada.repositorios.ComentarioRepo;
 import co.edu.uniquindio.ProyectoAvanzada.repositorios.ReporteRepo;
+import co.edu.uniquindio.ProyectoAvanzada.repositorios.UsuarioRepo;
 import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.ComentarioServicio;
+import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.EmailServicio;
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ComentarioServicioImpl implements ComentarioServicio {
 
+    private final UsuarioRepo usuarioRepo;
     private final ComentarioRepo comentarioRepo;
     private final ReporteRepo reporteRepo;
     private final ComentarioMapper comentarioMapper;
+    private final EmailServicio emailServicio;
 
     @Override
-    public void crearComentario(CrearComentarioDTO dto) {
-        // 1. Crear y guardar el comentario en la colección de comentarios
-        Comentario comentario = Comentario.builder()
-                .comentario(dto.mensaje())
-                .fecha(LocalDateTime.now())
-                .idUsuario(dto.idUsuario())
-                .idReporte(dto.idReporte())
-                .build();
+    public void crearComentario(String idReporte, CrearComentarioDTO dto) throws Exception {
 
-        comentario = comentarioRepo.save(comentario); // guardar y obtener ID generado
-
-        // 2. Buscar el reporte correspondiente
-        Reporte reporte = reporteRepo.findById(dto.idReporte())
-                .orElseThrow(() -> new RuntimeException("Reporte no encontrado"));
-
-        // 3. Crear una copia del comentario sin idReporte
-        Comentario comentarioEmbebido = Comentario.builder()
-                .idComentario(comentario.getIdComentario())
-                .idUsuario(comentario.getIdUsuario())
-                .comentario(comentario.getComentario())
-                .fecha(comentario.getFecha())
-                .build();
-
-        // 4. Agregar el comentario embebido al reporte
-        if (reporte.getComentarios() == null) {
-            reporte.setComentarios(new ArrayList<>());
+        if (dto.mensaje() == null || dto.mensaje().isBlank() ) {
+            throw new RuntimeException("El mensaje no puede estar vacío");
         }
 
-        reporte.getComentarios().add(comentarioEmbebido);
-        reporteRepo.save(reporte);
+        ObjectId objectId = new ObjectId(idReporte);
+        Reporte reporte = reporteRepo.findById(objectId)
+                .orElseThrow(() -> new RuntimeException("Reporte no encontrado"));
+
+        Comentario comentario = comentarioMapper.toDocument(dto);
+        comentario.setIdComentario(new ObjectId());
+        comentario.setFecha(LocalDateTime.now());
+        comentario.setReporteId(objectId);
+        comentarioRepo.save(comentario);
+
+        Usuario usuario = usuarioRepo.findById(reporte.getUsuarioId()  )
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        String asunto = "A new NEX comment has been added to your report";
+        String cuerpo = dto.mensaje();
+        String destinario = usuario.getEmail();
+
+        emailServicio.enviarCorreo(new EmailDTO(asunto, cuerpo, destinario));
     }
 
 
     @Override
     public List<ComentarioDTO> listarComentariosDeReporte(String idReporte) throws Exception {
 
-        List<Comentario> comentarios = comentarioRepo.buscarComentariosPorReporte(idReporte);
-        List<ComentarioDTO> comentarioDTOs = new ArrayList<>();
+        ObjectId objectId = new ObjectId(idReporte);
 
-        for (Comentario comentario : comentarios) {
-            ComentarioDTO dto = comentarioMapper.toDTO(comentario);
-            comentarioDTOs.add(dto);
+        Reporte reporte = reporteRepo.findById(objectId)
+                .orElseThrow(() -> new RuntimeException("Reporte no encontrado"));
+
+        List<Comentario> comentarios = comentarioRepo.findByReporteId(objectId);
+
+        if (comentarios.isEmpty()) {
+            throw new RuntimeException("No hay comentarios para este reporte");
         }
 
-        return comentarioDTOs;
+        return  comentarios.stream()
+                .map(comentarioMapper::toDTO)
+                .toList();
     }
 
 
     @Override
     public void eliminarComentario(String idReporte, String idComentario) {
-        Reporte reporte = reporteRepo.findById(idReporte)
+        ObjectId objectId = new ObjectId(idReporte);
+        Reporte reporte = reporteRepo.findById(objectId)
                 .orElseThrow(() -> new RuntimeException("Reporte no encontrado"));
 
-        boolean eliminado = false;
+        Comentario comentario = comentarioRepo.findById(new ObjectId(idComentario))
+                .orElseThrow(() -> new RuntimeException("Comentario no encontrado"));
 
-        List<Comentario> comentariosActualizados = new ArrayList<>();
-
-        for (Comentario comentario : reporte.getComentarios()) {
-            if (comentario.getIdComentario() != null && comentario.getIdComentario().equals(idComentario)) {
-                eliminado = true;
-            } else {
-                comentariosActualizados.add(comentario);
-            }
+        if (!comentario.getReporteId().equals(reporte.getIdReporte())) {
+            throw new RuntimeException("El comentario no pertenece a este reporte");
         }
 
-        if (!eliminado) {
-            throw new RuntimeException("El comentario no existe en el reporte");
-        }
-
-        reporte.setComentarios(comentariosActualizados);
-        reporteRepo.save(reporte);
-
-        // También eliminar de la colección de comentarios, si aplica
-        comentarioRepo.deleteById(idComentario);
+        comentarioRepo.delete(comentario);
     }
 
 

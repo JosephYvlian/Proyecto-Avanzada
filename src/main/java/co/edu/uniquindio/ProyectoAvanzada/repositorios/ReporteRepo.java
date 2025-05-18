@@ -1,6 +1,7 @@
 package co.edu.uniquindio.ProyectoAvanzada.repositorios;
 
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Reporte;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ReporteRepo extends MongoRepository<Reporte, String> {
+public interface ReporteRepo extends MongoRepository<Reporte, ObjectId> {
 
     @Query("{ '_id':  ?0}")
     Optional<Reporte> buscarReportePorCodigo(String idReporte);
@@ -34,4 +35,6 @@ public interface ReporteRepo extends MongoRepository<Reporte, String> {
 
     @Query("{'estado' :  'ACTIVO' }")
     List<Reporte> listarReportesActivos();
+
+    List<Reporte> findByUsuarioId(ObjectId usuarioId);
 }

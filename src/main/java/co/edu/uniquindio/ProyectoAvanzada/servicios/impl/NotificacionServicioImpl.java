@@ -1,22 +1,17 @@
 package co.edu.uniquindio.ProyectoAvanzada.servicios.impl;
 
-import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.EmailDTO;
-import co.edu.uniquindio.ProyectoAvanzada.dto.notificacion.EnviarNotificacionDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.notificacion.NotificacionDTO;
 import co.edu.uniquindio.ProyectoAvanzada.mapper.NotificacionMapper;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.documentos.Notificacion;
 import co.edu.uniquindio.ProyectoAvanzada.repositorios.NotificacionRepo;
-import co.edu.uniquindio.ProyectoAvanzada.repositorios.UsuarioRepo;
-import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.EmailServicio;
 import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.NotificacionServicio;
-import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.ReporteServicio;
-import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.UsuarioServicio;
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,80 +19,41 @@ public class NotificacionServicioImpl implements NotificacionServicio {
 
     private final NotificacionMapper notificacionMapper;
     private final NotificacionRepo notificacionRepo;
-    private final EmailServicio emailServicio;
-    private final UsuarioServicioImpl usuarioServicio;
-    private final ReporteServicio reporteServicio;
 
-    @Override
-    public void enviarNotificacion(EnviarNotificacionDTO dto) {
+    public List<NotificacionDTO> listarNotificacionesUsuario(String idUsuario) {
+        List<Notificacion> notificaciones = notificacionRepo.findByUsuarioId(new ObjectId(idUsuario));
 
-        Notificacion notificacion = notificacionMapper.toDocument(dto);
-        notificacion.setTituloNotificacion(dto.titulo());
-        notificacion.setFecha(LocalDateTime.now());
-        notificacion.setLeida(false);
-
-        notificacionRepo.save(notificacion);
-
-        String correoDestinatario = usuarioServicio.obtenerCorreoPorId(dto.idUsuario());
-        String nombreReporte = reporteServicio.obtenerReporte(dto.idReporte()).titulo();
-
-        EmailDTO emailDTO = new EmailDTO(
-                "Nueva Notificación",
-                "Tienes una nueva notificación sobre el reporte de " + '"' + nombreReporte + '"'+ ":\n\n " + dto.mensaje(),
-                correoDestinatario
-                );
-
-        try {
-            // Enviar el correo
-            emailServicio.enviarCorreo(emailDTO);
-        } catch (Exception e) {
-            throw new RuntimeException("Error al enviar correo: " + e.getMessage());
-        }
-    }
-
-    @Override
-    public void marcarComoLeido(String idNotificacion) {
-        Notificacion notificacion = notificacionRepo.findById(idNotificacion)
-                .orElseThrow(() -> new RuntimeException("La notificación no existe"));
-
-        notificacion.setLeida(true);
-        notificacionRepo.save(notificacion);
-    }
-
-    @Override
-    public List<NotificacionDTO> listarNotificaciones(String idUsuario) {
-        List<Notificacion> notificaciones = notificacionRepo.buscarPorUsuario(idUsuario);
-        List<NotificacionDTO> dtoList = new ArrayList<>();
-
-        for (Notificacion noti : notificaciones) {
-            dtoList.add(notificacionMapper.toDTO(noti));
+        if (notificaciones.isEmpty()) {
+            return new ArrayList<>();
         }
 
-        return dtoList;
+        return notificacionMapper.toDTO(notificaciones);
     }
 
-    @Override
-    public List<NotificacionDTO> listarNotificacionesNoLeidas(String idUsuario) {
-        List<Notificacion> notificaciones = notificacionRepo.buscarNoLeidasPorUsuario(idUsuario);
-        List<NotificacionDTO> dtoList = new ArrayList<>();
-
-        for (Notificacion noti : notificaciones) {
-            dtoList.add(notificacionMapper.toDTO(noti));
-        }
-
-        return dtoList;
+    // Listar por estado de lectura
+    public List<Notificacion> listarPorEstado(String idUsuario, boolean leidas) {
+        return notificacionRepo.findByUsuarioIdAndLeida(new ObjectId(idUsuario), leidas);
     }
 
-    @Override
-    public List<NotificacionDTO> listarNotificacionesLeidas(String idUsuario) {
-        List<Notificacion> notificaciones = notificacionRepo.buscarLeidasPorUsuario(idUsuario);
-        List<NotificacionDTO> dtoList = new ArrayList<>();
+    // Marcar una notificación como leída
+    public void marcarComoLeida(String idNotificacion) {
+        Optional<Notificacion> optional = notificacionRepo.findById(new ObjectId(idNotificacion));
 
-        for (Notificacion noti : notificaciones) {
-            dtoList.add(notificacionMapper.toDTO(noti));
+        optional.ifPresent(n -> {
+            n.setLeida(true);
+            notificacionRepo.save(n);
+        });
+    }
+
+    // Marcar todas como leídas para un usuario
+    public void marcarTodasComoLeidas(String idUsuario) {
+        List<Notificacion> lista = notificacionRepo.findByUsuarioIdAndLeida(new ObjectId(idUsuario), false);
+
+        for (Notificacion noti : lista) {
+            noti.setLeida(true);
         }
 
-        return dtoList;
+        notificacionRepo.saveAll(lista);
     }
 
 }

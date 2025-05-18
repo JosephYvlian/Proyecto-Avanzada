@@ -22,7 +22,7 @@ public class ReporteControlador {
     private final ReporteServicio reporteServicio;
 
     @PostMapping
-    public ResponseEntity<MensajeDTO<String>> crearReporte(@Valid @RequestBody CrearReporteDTO reporte){
+    public ResponseEntity<MensajeDTO<String>> crearReporte(@Valid @RequestBody CrearReporteDTO reporte) throws Exception {
 
         reporteServicio.crearReporte(reporte);
 

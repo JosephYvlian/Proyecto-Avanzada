@@ -9,7 +9,7 @@ public interface ComentarioServicio {
 
     void eliminarComentario(String idComentario, String idReporte);
 
-    void crearComentario(CrearComentarioDTO dto);
+    void crearComentario(String idReporte,CrearComentarioDTO dto) throws Exception;
 
     List<ComentarioDTO> listarComentariosDeReporte(String idReporte) throws Exception;
 }

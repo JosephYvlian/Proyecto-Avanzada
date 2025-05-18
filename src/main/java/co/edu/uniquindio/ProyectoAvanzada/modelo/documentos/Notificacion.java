@@ -11,17 +11,18 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Notificacion {
 
     @Id
-    private String idNotificacion;
+    @EqualsAndHashCode.Include
+    private ObjectId idNotificacion;
 
-    private String idUsuario;
-    private String idReporte;
+    private ObjectId usuarioId;
+    private ObjectId reporteId;
     private String tituloNotificacion;
     private String mensaje;
     private boolean leida;

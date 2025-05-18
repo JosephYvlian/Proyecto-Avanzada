@@ -3,6 +3,8 @@ package co.edu.uniquindio.ProyectoAvanzada.controladores;
 import co.edu.uniquindio.ProyectoAvanzada.dto.MensajeDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.TokenDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion.*;
+import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.CrearUsuarioDTO;
+import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.AuthServicio;
 import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.CategoriaServicio;
 import co.edu.uniquindio.ProyectoAvanzada.servicios.interfaces.UsuarioServicio;
 import jakarta.validation.Valid;
@@ -18,20 +20,15 @@ import org.springframework.web.bind.annotation.*;
 public class AuthControlador {
 
     private final CategoriaServicio categoriaServicio;
-
+    private final AuthServicio authServicio;
     private final UsuarioServicio usuarioServicio;
 
     @PostMapping("/login")
     public ResponseEntity<MensajeDTO<TokenDTO>> login(@Valid @RequestBody LoginDTO loginDTO) throws Exception {
-        TokenDTO tokenDTO = usuarioServicio.login(loginDTO);
+        TokenDTO tokenDTO = authServicio.login(loginDTO);
         return ResponseEntity.ok(new MensajeDTO<>(false, tokenDTO));
     }
 
-    @PostMapping("/registrarUsuario")
-    public ResponseEntity<MensajeDTO<String>> registarUsuario(@Valid @RequestBody RegistroDTO registro) {
-        usuarioServicio.crear(registro);
-        return ResponseEntity.ok(new MensajeDTO<>(false, "Usuario registrado exitosamente"));
-    }
 
     @PostMapping("/verificarUsuario")
     public ResponseEntity<MensajeDTO<String>> verificarCodigo(@Valid @RequestBody CodVerificacionDTO codVerificacion) {

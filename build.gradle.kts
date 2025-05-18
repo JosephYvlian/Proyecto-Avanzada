@@ -40,6 +40,8 @@ dependencies {
     implementation ("org.simplejavamail:batch-module:8.10.1")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("io.jsonwebtoken:jjwt-api:0.12.6")
+    implementation("com.google.firebase:firebase-admin:9.1.0")
+    implementation("com.cloudinary:cloudinary-http44:1.39.0")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
     compileOnly("org.projectlombok:lombok")
@@ -50,7 +52,7 @@ dependencies {
     testImplementation("org.mockito:mockito-core:5.12.0")
     testImplementation("org.mockito:mockito-junit-jupiter:5.12.0")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    implementation ("com.cloudinary:cloudinary-http44:1.34.0")
+
 
 }
 

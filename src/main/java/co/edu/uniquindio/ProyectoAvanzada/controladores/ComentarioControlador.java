@@ -9,7 +9,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
+
+        import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,15 +19,16 @@ public class ComentarioControlador {
 
     private final ComentarioServicio comentarioServicio;
 
-    @PostMapping
-    public ResponseEntity<MensajeDTO<String>> crearComentario(@Valid @RequestBody CrearComentarioDTO dto) throws Exception {
-        comentarioServicio.crearComentario(dto);
-        return ResponseEntity.ok(new MensajeDTO<>(false, "Comentario creado."));
+    @PostMapping("/{idReporte}")
+    public ResponseEntity<MensajeDTO<String>> crearComentario(@Valid @PathVariable @NotBlank(message = "El idReporte no puede estar vacio") String idReporte,
+                                                              @Valid @RequestBody CrearComentarioDTO dto) throws Exception {
+        comentarioServicio.crearComentario(idReporte, dto);
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Comentario creado correctamente."));
     }
 
     @GetMapping("/{idReporte}")
     public ResponseEntity<MensajeDTO<List<ComentarioDTO>>> listarComentarios(@Valid @PathVariable
-                                                                                 @NotBlank(message = "El idReporte no puede estar vacio") String idReporte) throws Exception {
+                                                                             @NotBlank(message = "El idReporte no puede estar vacio") String idReporte) throws Exception {
         List<ComentarioDTO> comentarios = comentarioServicio.listarComentariosDeReporte(idReporte);
         return ResponseEntity.ok(new MensajeDTO<>(false, comentarios));
     }

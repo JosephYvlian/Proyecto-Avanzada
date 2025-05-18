@@ -1,17 +1,16 @@
-package co.edu.uniquindio.ProyectoAvanzada.dto.autenticacion;
+package co.edu.uniquindio.ProyectoAvanzada.dto.usuario;
 
 import co.edu.uniquindio.ProyectoAvanzada.modelo.enums.EstadoCuenta;
 import co.edu.uniquindio.ProyectoAvanzada.modelo.enums.Rol;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
 
 @Schema
-public record RegistroDTO(
+public record CrearUsuarioDTO(
         Rol rol,
         @NotBlank(message = "No puede ingresar su nombre vacio.") @Length(min = 3, message = "Escriba un nombre válido.") String nombre,
         @NotBlank(message = "No puede ingresar un telefono vacio.") @Length(min = 7, max = 10, message = "Ingrese un número de telefono valido.") String telefono,

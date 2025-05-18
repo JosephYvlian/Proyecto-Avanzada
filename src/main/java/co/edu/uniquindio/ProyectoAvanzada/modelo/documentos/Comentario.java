@@ -1,5 +1,6 @@
 package co.edu.uniquindio.ProyectoAvanzada.modelo.documentos;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.*;
@@ -7,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Document("comentarios")
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -16,11 +17,12 @@ import java.time.LocalDateTime;
 public class Comentario {
 
     @Id
-    private String idComentario;
+    @EqualsAndHashCode.Include
+    private ObjectId idComentario;
 
-    private String idUsuario;
-    private String idReporte;
-    private String comentario;
+    private ObjectId usuarioId;
+    private ObjectId reporteId;
+    private String mensaje;
     private LocalDateTime fecha;
 
 }

@@ -1,5 +1,6 @@
 package co.edu.uniquindio.ProyectoAvanzada.controladores;
 
+import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.CrearUsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.EditarUsuarioDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.MensajeDTO;
 import co.edu.uniquindio.ProyectoAvanzada.dto.usuario.UsuarioDTO;
@@ -19,6 +20,12 @@ import java.util.List;
 
 public class UsuarioControlador {
     private final UsuarioServicio usuarioServicio;
+
+    @PostMapping("/registrarUsuario")
+    public ResponseEntity<MensajeDTO<String>> registarUsuario(@Valid @RequestBody CrearUsuarioDTO registro) {
+        usuarioServicio.crear(registro);
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Usuario registrado exitosamente"));
+    }
 
     @PutMapping("/{idUsuario}")
     public ResponseEntity<MensajeDTO<String>> editar(@Valid @RequestBody EditarUsuarioDTO cuenta,

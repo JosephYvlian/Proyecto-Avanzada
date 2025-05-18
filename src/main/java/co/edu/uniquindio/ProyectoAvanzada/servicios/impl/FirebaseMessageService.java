@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class FirebaseMessageService {
-
+/*
     public String enviarNotificacion(String token, String title, String body) {
 
         Notification notification = Notification.builder()
@@ -27,6 +27,6 @@ public class FirebaseMessageService {
             e.printStackTrace();
             return "Error sending FCM message";
         }
-    }
+    }*/
 
 }

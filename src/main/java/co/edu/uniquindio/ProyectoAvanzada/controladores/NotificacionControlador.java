@@ -23,13 +23,13 @@ public class NotificacionControlador {
     private final NotificacionServicio notificacionServicio;
     private final FirebaseMessageService firebaseService;
 
-    @PostMapping("/enviar")
+  /*  @PostMapping("/enviar")
     public String enviarNotificacion(@RequestParam String token,
                                      @RequestParam String titulo,
                                      @RequestParam String mensaje){
 
         return firebaseService.enviarNotificacion(token, titulo, mensaje);
-    }
+    }*/
 
     @GetMapping("/{idUsuario}")
     public ResponseEntity<MensajeDTO<List<NotificacionDTO>>> listarNotificaciones(@PathVariable @NotBlank String idUsuario) {

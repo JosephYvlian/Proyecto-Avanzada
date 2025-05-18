@@ -10,9 +10,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-@Configuration
+//@Configuration
 public class FirebaseConfig {
-
+/*
     @PostConstruct
     public void initialize() {
         try {
@@ -29,5 +29,5 @@ public class FirebaseConfig {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

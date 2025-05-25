@@ -1,9 +1,8 @@
 FROM gradle:latest AS build
-COPY --chown=gradle:gradle src /home/gradle/src
+COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
 RUN gradle clean
 RUN gradle bootJar
-
 
 #
 # Package stage

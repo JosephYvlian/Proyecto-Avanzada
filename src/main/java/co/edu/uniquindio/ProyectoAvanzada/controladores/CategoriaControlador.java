@@ -41,8 +41,8 @@ public class CategoriaControlador {
     }
 
     @PutMapping("/{idCategoria}")
-    public ResponseEntity<MensajeDTO<String>> editarCategoria(@Valid @RequestBody EditarCategoriaDTO editCategoriaDTO, @Valid @PathVariable @NotBlank String idCategoria){
-        categoriaServicio.editarCategoria(editCategoriaDTO, idCategoria);
+    public ResponseEntity<MensajeDTO<String>> editarCategoria(@Valid @RequestBody EditarCategoriaDTO dto, @Valid @PathVariable @NotBlank String idCategoria){
+        categoriaServicio.editarCategoria(dto, idCategoria);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Categoria editada correctamente"));
     }
 

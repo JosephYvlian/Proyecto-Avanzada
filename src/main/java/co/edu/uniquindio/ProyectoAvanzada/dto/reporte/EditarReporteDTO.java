@@ -12,7 +12,6 @@ public record EditarReporteDTO(
         @NotBlank(message = "La categoria no puede estar vacia") String categoria,
         @NotBlank(message = "La descripcion no puede estar vacia") String descripcion,
         @NotBlank(message = "La ubicacion no puede estar vacia") Ubicacion ubicacion,
-        EstadoReporte estado,
         List<String> imagenes
 ) {
 }

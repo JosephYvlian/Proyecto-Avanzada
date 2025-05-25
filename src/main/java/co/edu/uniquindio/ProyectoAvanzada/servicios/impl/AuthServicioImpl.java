@@ -23,27 +23,27 @@ public class AuthServicioImpl implements AuthServicio {
     private final JWTUtils jwtUtils;
 
     @Override
-    public TokenDTO login(LoginDTO loginDTO) throws Exception {
+    public TokenDTO login(LoginDTO loginDTO) {
         Optional<Usuario> optionalUsuario = usuarioRepo.buscarUsuarioPorEmail(loginDTO.email());
 
         if (optionalUsuario.isEmpty()) {
-            throw new Exception("El usuario no existe");
+            throw new RuntimeException("El usuario no existe");
         }
 
         Usuario usuario = optionalUsuario.get();
 
         if (usuario.getEstadoCuenta() != EstadoCuenta.ACTIVO) {
-            throw new Exception("La cuenta aún no ha sido verificada");
+            throw new RuntimeException("La cuenta aún no ha sido verificada");
         }
 
-
         if (!passwordEncoder.matches(loginDTO.password(), usuario.getPassword())) {
-            throw new Exception("Contraseña incorrecta");
+            throw new RuntimeException("Contraseña incorrecta");
         }
 
         String token = jwtUtils.generateToken(usuario.getIdUsuario().toString(), crearClaims(usuario));
         return new TokenDTO(token);
     }
+
 
     private Map<String, String> crearClaims(Usuario usuario) {
         return Map.of(

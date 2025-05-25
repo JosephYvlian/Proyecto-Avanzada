@@ -32,13 +32,13 @@ public class ComentarioServicioImpl implements ComentarioServicio {
     private final EmailServicio emailServicio;
 
     @Override
-    public void crearComentario(String idReporte, CrearComentarioDTO dto) throws Exception {
+    public void crearComentario(CrearComentarioDTO dto) throws Exception {
 
         if (dto.mensaje() == null || dto.mensaje().isBlank() ) {
             throw new RuntimeException("El mensaje no puede estar vacío");
         }
 
-        ObjectId objectId = new ObjectId(idReporte);
+        ObjectId objectId = new ObjectId(dto.idReporte());
         Reporte reporte = reporteRepo.findById(objectId)
                 .orElseThrow(() -> new RuntimeException("Reporte no encontrado"));
 

@@ -30,26 +30,26 @@ public class AuthControlador {
     }
 
 
-    @PostMapping("/verificarUsuario")
+    @PostMapping("/verificar-usuario")
     public ResponseEntity<MensajeDTO<String>> verificarCodigo(@Valid @RequestBody CodVerificacionDTO codVerificacion) {
         usuarioServicio.verificarUsuario(codVerificacion);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Codigo verificado correctamente"));
     }
 
-    @PostMapping("/recuperarUsuario")
+    @PostMapping("/recuperar-usuario")
     public ResponseEntity<MensajeDTO<String>> recuperarUsuario(@Valid @RequestBody @NotBlank(message = "El email no puede ser vacio.")
                                                                    @Email(message = "Ingrese un email valido") String email) {
         usuarioServicio.recuperarUsuario(email);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Codigo recuperado correctamente"));
     }
 
-    @PostMapping("/recuperarContrasena")
+    @PostMapping("/recuperar-contrasena")
     public ResponseEntity<MensajeDTO<String>> recuperarContrasena(@Valid @RequestBody RecuperarContrasenaDTO recuperarContrasena) {
         usuarioServicio.recuperarContrasena(recuperarContrasena);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Contrasena recuperada exitosamente"));
     }
 
-    @PutMapping("/actualizarContrasena")
+    @PutMapping("/actualizar-contrasena")
     public ResponseEntity<MensajeDTO<String>> cambiarContrasena(@Valid @RequestBody ActualizarContrasenaDTO actualizarContrasena) {
         usuarioServicio.actualizarContrasena(actualizarContrasena);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Contrasena actualizada exitosamente"));

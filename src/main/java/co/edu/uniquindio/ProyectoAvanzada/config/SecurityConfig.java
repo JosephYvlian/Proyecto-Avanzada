@@ -5,6 +5,7 @@ import co.edu.uniquindio.ProyectoAvanzada.seguridad.JWTFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -39,19 +40,15 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers("/api/auth/**",
+                        .requestMatchers("/swagger-ui.html",
+                                        "/swagger-resources/**",
                                         "/swagger-ui/**",
-                                        "/v3/api-docs/**",
-                                        "/api/usuarios",
-                                        "/api/categorias",
-                                        "/api/reportes",
-                                        "/api/comentarios/**",
-                                        "api/mapaCalor").permitAll()
-
-                        .requestMatchers("/api/usuarios/**").hasAnyRole("ADMININISTRADOR", "CLIENTE")
-                        .requestMatchers("/api/categorias/**").hasRole("ADMINISTRADOR")
-                        .requestMatchers("/api/reportes/**").authenticated()
-                        .requestMatchers("/api/notificaciones/**").authenticated()
+                                        "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/usuarios/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/categorias").hasRole("ADMINISTRADOR")
+                        .requestMatchers(HttpMethod.DELETE, "/api/categorias/**").hasRole("ADMINISTRADOR")
+                        .requestMatchers(HttpMethod.PUT, "/api/categorias/**").hasRole("ADMINISTRADOR")
                         .anyRequest().authenticated()
                 )
 
@@ -67,7 +64,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         // Configura las políticas de CORS para permitir solicitudes desde el frontend
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("*"));
+        config.setAllowedOrigins(List.of("http://localhost:4200"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);

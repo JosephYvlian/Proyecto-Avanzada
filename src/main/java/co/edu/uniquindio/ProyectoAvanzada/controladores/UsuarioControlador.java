@@ -17,11 +17,11 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/usuarios")
-
+@CrossOrigin(origins = "http://localhost:4200")
 public class UsuarioControlador {
     private final UsuarioServicio usuarioServicio;
 
-    @PostMapping("/registrarUsuario")
+    @PostMapping("/registrar-usuario")
     public ResponseEntity<MensajeDTO<String>> registarUsuario(@Valid @RequestBody CrearUsuarioDTO registro) {
         usuarioServicio.crear(registro);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Usuario registrado exitosamente"));

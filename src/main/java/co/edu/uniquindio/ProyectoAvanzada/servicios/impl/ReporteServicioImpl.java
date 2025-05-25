@@ -38,14 +38,10 @@ public class ReporteServicioImpl implements ReporteServicio {
 
         Reporte reporte = reporteMapper.toDocument(dto);
 
-        if (dto.usuarioId() != null) {
-            usuarioRepo.findById(dto.usuarioId()).ifPresent(usuario -> reporte.setUsuarioId(usuario.getIdUsuario()));
-        }
-
         reporte.setEstado(EstadoReporte.PENDIENTE);
         reporteRepo.save(reporte);
 
-        emailServicio.enviarCorreo(new EmailDTO("Nuevo Reporte", "Se ha creado un nuevo reporte con ID: " + reporte.getIdReporte(), dto.usuarioId().toString()));
+        emailServicio.enviarCorreo(new EmailDTO("Nuevo Reporte", "Se ha creado un nuevo reporte con ID: " + reporte.getIdReporte(), null));
     }
 
     @Override
